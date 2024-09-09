@@ -1,9 +1,16 @@
-C:\Program Files\Google\Chrome\Application\chrome.exe
-C:\Users\Samuele\Downloads\numpad.png
-C:\Users\Samuele\Downloads\numpad_4x4.png
-C:\Users\Samuele\Downloads\Sicherh., Risiko, Solidarität Gesellschaft_Ausgabe A [57-82].pdf
+
+
 C:\Users\Samuele\Music\beep.mp3
-C:\Users\Samuele\Downloads\yt1s_wU4BGgD.mp3
-C:\Users\Samuele\Downloads\movie_1_C2K5NH0.mp3
-C:\Users\Samuele\Music\beep-01a.mp3
-keystroke[CTRL+W]
+
+
+C:\Users\Samuele\Music\beep.mp3
+
+
+
+
+
+
+C:\Users\Samuele\Music\beep.mp3
+
+volume[10]
+volume[10]

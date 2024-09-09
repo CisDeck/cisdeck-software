@@ -18,8 +18,8 @@ namespace Streamdeck
     {
         private SerialPort serialPort;
         private string[] Programs = new string[4];
-        private string[] Sounds = new string[4];
-        private string star;
+        private string[] Sounds = new string[9];
+        private string[] Specials = new string[3];
         private bool connected = false;
         private Thread serialThread; // Separate thread for serial communication
         private int timeLeftToCheck;
@@ -31,6 +31,7 @@ namespace Streamdeck
             ConnectToArduino();
             timeLeftToCheck = 30;
             timer1.Start();
+            File.Delete("options.txt");
         }
 
         private void LoadOptions()
@@ -42,13 +43,20 @@ namespace Streamdeck
                 for (int i = 0; i < 4; i++)
                 {
                     Programs[i] = lines[i];
+                }
+                for (int i = 0; i < 8; i++)
+                {
                     Sounds[i] = lines[i + 4];
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    Specials[i] = lines[i + 12];
                 }
                 UpdateUI();
             }
             else
             {
-                File.WriteAllLines("options.txt", new string[8]); // Create default file with empty lines
+                File.WriteAllLines("options.txt", new string[15]); // Create default file with empty lines
             }
         }
 
@@ -62,7 +70,14 @@ namespace Streamdeck
             textBoxSound2.Text = Sounds[1];
             textBoxSound3.Text = Sounds[2];
             textBoxSound4.Text = Sounds[3];
-            starScriptBox.Text = star;
+            textBoxSound5.Text = Sounds[4];
+            textBoxSound6.Text = Sounds[5];
+            textBoxSound7.Text = Sounds[6];
+            textBoxSound8.Text = Sounds[7];
+            textBoxSound9.Text = Sounds[8];
+            starScriptBox.Text = Specials[0];
+            hashtagScriptBox.Text = Specials[1];
+            zeroScriptBox.Text = Specials[2];
         }
 
         private void SaveOptions()
@@ -75,11 +90,19 @@ namespace Streamdeck
             Sounds[1] = textBoxSound2.Text;
             Sounds[2] = textBoxSound3.Text;
             Sounds[3] = textBoxSound4.Text;
-            star = starScriptBox.Text;
+            Sounds[4] = textBoxSound5.Text;
+            Sounds[5] = textBoxSound6.Text;
+            Sounds[6] = textBoxSound7.Text;
+            Sounds[7] = textBoxSound8.Text;
+            Sounds[8] = textBoxSound9.Text;
+            Specials[0] = starScriptBox.Text;
+            Specials[1] = hashtagScriptBox.Text;
+            Specials[2] = zeroScriptBox.Text;
+
 
             File.WriteAllLines("options.txt", Programs);
             File.AppendAllLines("options.txt", Sounds);
-            File.AppendAllText("options.txt", star);
+            File.AppendAllLines("options.txt", Specials);
         }
 
         private void ConnectToArduino()
@@ -142,9 +165,13 @@ namespace Streamdeck
         {
 
             input = input.Trim(); // Remove unnecessary whitespace
-            if (input.Contains("*"))
+            if (input.Contains("*") || input.Contains("#") || input.Contains("0"))
             {
-                ScriptHandler.Execute(star);
+                int index = Array.IndexOf(new string[] { "*", "#", "0" }, input);
+                if (index >= 0)
+                {
+                    ScriptHandler.Execute(Specials[index]);
+                }
             }
             else if (input.Contains("#"))
             {

@@ -36,3 +36,4 @@ C:\Users\Samuele\source\repos\Streamdeck\bin\Debug\net8.0-windows\System.CodeDom
 C:\Users\Samuele\source\repos\Streamdeck\bin\Debug\net8.0-windows\System.Management.dll
 C:\Users\Samuele\source\repos\Streamdeck\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Management.dll
 C:\Users\Samuele\source\repos\Streamdeck\obj\Debug\net8.0-windows\Streamdeck.SplashScreen.resources
+C:\Users\Samuele\source\repos\Streamdeck\obj\Debug\net8.0-windows\Streamdeck.sourcelink.json

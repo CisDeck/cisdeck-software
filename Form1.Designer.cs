@@ -81,8 +81,8 @@
             panel4 = new Panel();
             label17 = new Label();
             tableLayoutPanel4 = new TableLayoutPanel();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
+            zeroScriptBox = new TextBox();
+            hashtagScriptBox = new TextBox();
             label18 = new Label();
             label19 = new Label();
             label20 = new Label();
@@ -92,9 +92,9 @@
             textBoxPort = new TextBox();
             connectButton = new Button();
             connectedLabel = new Label();
+            pictureBox2 = new PictureBox();
             contextMenuStrip2 = new ContextMenuStrip(components);
             timer1 = new System.Windows.Forms.Timer(components);
-            pictureBox2 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -777,8 +777,8 @@
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel4.Controls.Add(textBox2, 1, 2);
-            tableLayoutPanel4.Controls.Add(textBox1, 1, 1);
+            tableLayoutPanel4.Controls.Add(zeroScriptBox, 1, 2);
+            tableLayoutPanel4.Controls.Add(hashtagScriptBox, 1, 1);
             tableLayoutPanel4.Controls.Add(label18, 0, 2);
             tableLayoutPanel4.Controls.Add(label19, 0, 0);
             tableLayoutPanel4.Controls.Add(label20, 0, 1);
@@ -793,23 +793,23 @@
             tableLayoutPanel4.Size = new Size(342, 384);
             tableLayoutPanel4.TabIndex = 0;
             // 
-            // textBox2
+            // zeroScriptBox
             // 
-            textBox2.AcceptsTab = true;
-            textBox2.Location = new Point(125, 259);
-            textBox2.Multiline = true;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(210, 109);
-            textBox2.TabIndex = 8;
+            zeroScriptBox.AcceptsTab = true;
+            zeroScriptBox.Location = new Point(125, 259);
+            zeroScriptBox.Multiline = true;
+            zeroScriptBox.Name = "zeroScriptBox";
+            zeroScriptBox.Size = new Size(210, 109);
+            zeroScriptBox.TabIndex = 8;
             // 
-            // textBox1
+            // hashtagScriptBox
             // 
-            textBox1.AcceptsTab = true;
-            textBox1.Location = new Point(125, 131);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(210, 109);
-            textBox1.TabIndex = 7;
+            hashtagScriptBox.AcceptsTab = true;
+            hashtagScriptBox.Location = new Point(125, 131);
+            hashtagScriptBox.Multiline = true;
+            hashtagScriptBox.Name = "hashtagScriptBox";
+            hashtagScriptBox.Size = new Size(210, 109);
+            hashtagScriptBox.TabIndex = 7;
             // 
             // label18
             // 
@@ -924,6 +924,14 @@
             connectedLabel.TabIndex = 3;
             connectedLabel.Text = "Unconnected";
             // 
+            // pictureBox2
+            // 
+            pictureBox2.Location = new Point(1350, 3);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(328, 453);
+            pictureBox2.TabIndex = 6;
+            pictureBox2.TabStop = false;
+            // 
             // contextMenuStrip2
             // 
             contextMenuStrip2.ImageScalingSize = new Size(20, 20);
@@ -933,14 +941,6 @@
             // timer1
             // 
             timer1.Tick += timer1_Tick;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Location = new Point(1350, 3);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(328, 453);
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
             // 
             // Form1
             // 
@@ -1051,8 +1051,8 @@
         private TextBox textBoxPort;
         private Button connectButton;
         private Label connectedLabel;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox zeroScriptBox;
+        private TextBox hashtagScriptBox;
         private Button applyButton;
         private PictureBox pictureBox2;
     }
