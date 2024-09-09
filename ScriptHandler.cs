@@ -51,7 +51,7 @@ namespace Streamdeck
                 {
                     AdjustVolume(command);
                 }
-                else if (command.StartsWith("sound["))
+                else if (command.StartsWith("playSound["))
                 {
                     PlaySound(command);
                 }
@@ -96,7 +96,7 @@ namespace Streamdeck
 
         private static void PlaySound(string command)
         {
-            string filePath = command.Substring(6, command.Length - 7);
+            string filePath = command.Substring(10, command.Length - 11);
             try
             {
                 if (File.Exists(filePath))

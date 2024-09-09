@@ -11,7 +11,7 @@ namespace Streamdeck
         [STAThread]
         static void Main(string[] args)
         {
-            new Form1().ShowDialog();
+            new SplashScreen().ShowDialog();
         }
     }
 }
