@@ -9,5 +9,5 @@ The Hardware consists out of 2 main Components:
 The packaging is made out of cardboard and tape due to missing materials.
 
 Images:
-![Image1](https://github.com/ironflipper/cisdeck/blob/main/githubutils/1000026987.jpg?raw=true)
+<img src="https://github.com/ironflipper/cisdeck/blob/main/githubutils/1000026987.jpg?raw=true" width="200" height="400">
 ![Image2](https://github.com/ironflipper/cisdeck/blob/main/githubutils/1000026988.jpg?raw=true)
