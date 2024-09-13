@@ -95,6 +95,22 @@
             contextMenuStrip2 = new ContextMenuStrip(components);
             timer1 = new System.Windows.Forms.Timer(components);
             panel5 = new Panel();
+            numpad_4 = new PictureBox();
+            numpad_5 = new PictureBox();
+            numpad_6 = new PictureBox();
+            numpad_7 = new PictureBox();
+            numpad_8 = new PictureBox();
+            numpad_9 = new PictureBox();
+            numpad_star = new PictureBox();
+            numpad_hashtag = new PictureBox();
+            numpad_A = new PictureBox();
+            numpad_B = new PictureBox();
+            numpad_C = new PictureBox();
+            numpad_3 = new PictureBox();
+            numpad_2 = new PictureBox();
+            numpad_0 = new PictureBox();
+            numpad_D = new PictureBox();
+            numpad_1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -105,13 +121,29 @@
             panel4.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numpad_4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_8).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_9).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_star).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_hashtag).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_A).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_B).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_C).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_0).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_D).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_1).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             pictureBox1.Image = Properties.Resources.numpad_4x4;
-            pictureBox1.Location = new Point(375, 3);
+            pictureBox1.Location = new Point(1356, 199);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(328, 456);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -923,6 +955,22 @@
             // 
             // panel5
             // 
+            panel5.Controls.Add(numpad_4);
+            panel5.Controls.Add(numpad_5);
+            panel5.Controls.Add(numpad_6);
+            panel5.Controls.Add(numpad_7);
+            panel5.Controls.Add(numpad_8);
+            panel5.Controls.Add(numpad_9);
+            panel5.Controls.Add(numpad_star);
+            panel5.Controls.Add(numpad_hashtag);
+            panel5.Controls.Add(numpad_A);
+            panel5.Controls.Add(numpad_B);
+            panel5.Controls.Add(numpad_C);
+            panel5.Controls.Add(numpad_3);
+            panel5.Controls.Add(numpad_2);
+            panel5.Controls.Add(numpad_0);
+            panel5.Controls.Add(numpad_D);
+            panel5.Controls.Add(numpad_1);
             panel5.Controls.Add(panel4);
             panel5.Controls.Add(panel2);
             panel5.Controls.Add(panel3);
@@ -931,19 +979,243 @@
             panel5.Controls.Add(pictureBox2);
             panel5.Location = new Point(12, 12);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1589, 942);
+            panel5.Size = new Size(2041, 942);
             panel5.TabIndex = 2;
+            // 
+            // numpad_4
+            // 
+            numpad_4.Cursor = Cursors.Hand;
+            numpad_4.Image = Properties.Resources._4;
+            numpad_4.Location = new Point(1400, 376);
+            numpad_4.Name = "numpad_4";
+            numpad_4.Size = new Size(48, 50);
+            numpad_4.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_4.TabIndex = 21;
+            numpad_4.TabStop = false;
+            numpad_4.MouseClick += numpad_4_Click;
+            numpad_4.MouseEnter += numpad_4_hover;
+            numpad_4.MouseLeave += numpad_4_leave;
+            // 
+            // numpad_5
+            // 
+            numpad_5.Cursor = Cursors.Hand;
+            numpad_5.Image = Properties.Resources._5;
+            numpad_5.Location = new Point(1464, 376);
+            numpad_5.Name = "numpad_5";
+            numpad_5.Size = new Size(48, 50);
+            numpad_5.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_5.TabIndex = 20;
+            numpad_5.TabStop = false;
+            numpad_5.MouseClick += numpad_5_Click;
+            numpad_5.MouseEnter += numpad_5_hover;
+            numpad_5.MouseLeave += numpad_5_leave;
+            // 
+            // numpad_6
+            // 
+            numpad_6.Cursor = Cursors.Hand;
+            numpad_6.Image = Properties.Resources._6;
+            numpad_6.Location = new Point(1529, 376);
+            numpad_6.Name = "numpad_6";
+            numpad_6.Size = new Size(48, 50);
+            numpad_6.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_6.TabIndex = 19;
+            numpad_6.TabStop = false;
+            numpad_6.MouseClick += numpad_6_Click;
+            numpad_6.MouseEnter += numpad_6_hover;
+            numpad_6.MouseLeave += numpad_6_leave;
+            // 
+            // numpad_7
+            // 
+            numpad_7.Cursor = Cursors.Hand;
+            numpad_7.Image = Properties.Resources._7;
+            numpad_7.Location = new Point(1400, 437);
+            numpad_7.Name = "numpad_7";
+            numpad_7.Size = new Size(48, 50);
+            numpad_7.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_7.TabIndex = 18;
+            numpad_7.TabStop = false;
+            numpad_7.MouseClick += numpad_7_Click;
+            numpad_7.MouseEnter += numpad_7_hover;
+            numpad_7.MouseLeave += numpad_7_leave;
+            // 
+            // numpad_8
+            // 
+            numpad_8.Cursor = Cursors.Hand;
+            numpad_8.Image = Properties.Resources._8;
+            numpad_8.Location = new Point(1464, 437);
+            numpad_8.Name = "numpad_8";
+            numpad_8.Size = new Size(48, 50);
+            numpad_8.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_8.TabIndex = 17;
+            numpad_8.TabStop = false;
+            numpad_8.MouseClick += numpad_8_Click;
+            numpad_8.MouseEnter += numpad_8_hover;
+            numpad_8.MouseLeave += numpad_8_leave;
+            // 
+            // numpad_9
+            // 
+            numpad_9.Cursor = Cursors.Hand;
+            numpad_9.Image = Properties.Resources._9;
+            numpad_9.Location = new Point(1529, 437);
+            numpad_9.Name = "numpad_9";
+            numpad_9.Size = new Size(48, 50);
+            numpad_9.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_9.TabIndex = 16;
+            numpad_9.TabStop = false;
+            numpad_9.MouseClick += numpad_9_Click;
+            numpad_9.MouseEnter += numpad_9_hover;
+            numpad_9.MouseLeave += numpad_9_leave;
+            // 
+            // numpad_star
+            // 
+            numpad_star.Cursor = Cursors.Hand;
+            numpad_star.Image = Properties.Resources.star;
+            numpad_star.Location = new Point(1400, 497);
+            numpad_star.Name = "numpad_star";
+            numpad_star.Size = new Size(48, 50);
+            numpad_star.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_star.TabIndex = 15;
+            numpad_star.TabStop = false;
+            numpad_star.MouseClick += numpad_star_Click;
+            numpad_star.MouseEnter += numpad_star_hover;
+            numpad_star.MouseLeave += numpad_star_leave;
+            // 
+            // numpad_hashtag
+            // 
+            numpad_hashtag.Cursor = Cursors.Hand;
+            numpad_hashtag.Image = Properties.Resources._;
+            numpad_hashtag.Location = new Point(1529, 497);
+            numpad_hashtag.Name = "numpad_hashtag";
+            numpad_hashtag.Size = new Size(48, 50);
+            numpad_hashtag.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_hashtag.TabIndex = 14;
+            numpad_hashtag.TabStop = false;
+            numpad_hashtag.MouseClick += numpad_hashtag_Click;
+            numpad_hashtag.MouseEnter += numpad_hashtag_hover;
+            numpad_hashtag.MouseLeave += numpad_hashtag_leave;
+            // 
+            // numpad_A
+            // 
+            numpad_A.Cursor = Cursors.Hand;
+            numpad_A.Image = Properties.Resources.A;
+            numpad_A.Location = new Point(1592, 316);
+            numpad_A.Name = "numpad_A";
+            numpad_A.Size = new Size(48, 50);
+            numpad_A.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_A.TabIndex = 13;
+            numpad_A.TabStop = false;
+            numpad_A.MouseClick += numpad_A_Click;
+            numpad_A.MouseEnter += numpad_A_hover;
+            numpad_A.MouseLeave += numpad_A_leave;
+            // 
+            // numpad_B
+            // 
+            numpad_B.Cursor = Cursors.Hand;
+            numpad_B.Image = Properties.Resources.B;
+            numpad_B.Location = new Point(1592, 376);
+            numpad_B.Name = "numpad_B";
+            numpad_B.Size = new Size(48, 50);
+            numpad_B.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_B.TabIndex = 12;
+            numpad_B.TabStop = false;
+            numpad_B.MouseClick += numpad_B_Click;
+            numpad_B.MouseEnter += numpad_B_hover;
+            numpad_B.MouseLeave += numpad_B_leave;
+            // 
+            // numpad_C
+            // 
+            numpad_C.Cursor = Cursors.Hand;
+            numpad_C.Image = Properties.Resources.C;
+            numpad_C.Location = new Point(1592, 437);
+            numpad_C.Name = "numpad_C";
+            numpad_C.Size = new Size(48, 50);
+            numpad_C.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_C.TabIndex = 11;
+            numpad_C.TabStop = false;
+            numpad_C.MouseClick += numpad_C_Click;
+            numpad_C.MouseEnter += numpad_C_hover;
+            numpad_C.MouseLeave += numpad_C_leave;
+            // 
+            // numpad_3
+            // 
+            numpad_3.Cursor = Cursors.Hand;
+            numpad_3.Image = Properties.Resources._3;
+            numpad_3.Location = new Point(1529, 316);
+            numpad_3.Name = "numpad_3";
+            numpad_3.Size = new Size(48, 50);
+            numpad_3.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_3.TabIndex = 10;
+            numpad_3.TabStop = false;
+            numpad_3.MouseClick += numpad_3_Click;
+            numpad_3.MouseEnter += numpad_3_hover;
+            numpad_3.MouseLeave += numpad_3_leave;
+            // 
+            // numpad_2
+            // 
+            numpad_2.Cursor = Cursors.Hand;
+            numpad_2.Image = Properties.Resources._2;
+            numpad_2.Location = new Point(1464, 316);
+            numpad_2.Name = "numpad_2";
+            numpad_2.Size = new Size(48, 50);
+            numpad_2.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_2.TabIndex = 9;
+            numpad_2.TabStop = false;
+            numpad_2.MouseClick += numpad_2_Click;
+            numpad_2.MouseEnter += numpad_2_hover;
+            numpad_2.MouseLeave += numpad_2_leave;
+            // 
+            // numpad_0
+            // 
+            numpad_0.Cursor = Cursors.Hand;
+            numpad_0.Image = Properties.Resources._0;
+            numpad_0.Location = new Point(1464, 497);
+            numpad_0.Name = "numpad_0";
+            numpad_0.Size = new Size(48, 50);
+            numpad_0.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_0.TabIndex = 9;
+            numpad_0.TabStop = false;
+            numpad_0.MouseClick += numpad_0_Click;
+            numpad_0.MouseEnter += numpad_0_hover;
+            numpad_0.MouseLeave += numpad_0_leave;
+            // 
+            // numpad_D
+            // 
+            numpad_D.Cursor = Cursors.Hand;
+            numpad_D.Image = Properties.Resources.D;
+            numpad_D.Location = new Point(1592, 497);
+            numpad_D.Name = "numpad_D";
+            numpad_D.Size = new Size(48, 50);
+            numpad_D.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_D.TabIndex = 8;
+            numpad_D.TabStop = false;
+            numpad_D.MouseClick += numpad_D_Click;
+            numpad_D.MouseEnter += numpad_D_hover;
+            numpad_D.MouseLeave += numpad_D_leave;
+            // 
+            // numpad_1
+            // 
+            numpad_1.Cursor = Cursors.Hand;
+            numpad_1.Image = Properties.Resources._1;
+            numpad_1.Location = new Point(1400, 316);
+            numpad_1.Name = "numpad_1";
+            numpad_1.Size = new Size(48, 50);
+            numpad_1.SizeMode = PictureBoxSizeMode.Zoom;
+            numpad_1.TabIndex = 7;
+            numpad_1.TabStop = false;
+            numpad_1.MouseEnter += numpad_1_hover;
+            numpad_1.MouseLeave += numpad_1_leave;
             // 
             // Form1
             // 
             BackColor = Color.FromArgb(24, 24, 24);
-            ClientSize = new Size(1159, 966);
+            ClientSize = new Size(2065, 966);
             Controls.Add(panel5);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Form1";
             Text = "CisDeck";
+            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -961,7 +1233,28 @@
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
             panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)numpad_4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_8).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_9).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_star).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_hashtag).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_A).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_B).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_C).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_0).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_D).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numpad_1).EndInit();
             ResumeLayout(false);
+        }
+
+        private void Numpad_1_MouseLeave(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void ConnectButton_Click(object sender, EventArgs e)
@@ -1047,5 +1340,21 @@
         private Button applyButton;
         private PictureBox pictureBox2;
         private Panel panel5;
+        private PictureBox numpad_4;
+        private PictureBox numpad_5;
+        private PictureBox numpad_6;
+        private PictureBox numpad_7;
+        private PictureBox numpad_8;
+        private PictureBox numpad_9;
+        private PictureBox numpad_star;
+        private PictureBox numpad_hashtag;
+        private PictureBox numpad_A;
+        private PictureBox numpad_B;
+        private PictureBox numpad_C;
+        private PictureBox numpad_3;
+        private PictureBox numpad_2;
+        private PictureBox numpad_0;
+        private PictureBox numpad_D;
+        private PictureBox numpad_1;
     }
 }

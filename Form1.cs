@@ -11,6 +11,7 @@ using System.Management;
 using System.Windows;
 using System.ComponentModel;
 using System.Windows.Forms.VisualStyles;
+using System.Drawing.Imaging;
 
 namespace Streamdeck
 {
@@ -23,6 +24,11 @@ namespace Streamdeck
         private bool connected = false;
         private Thread serialThread; // Separate thread for serial communication
         private int timeLeftToCheck;
+        private Dictionary<PictureBox, Image> originalImages = new Dictionary<PictureBox, Image>();
+        private Dictionary<PictureBox, Image> brightenedImages = new Dictionary<PictureBox, Image>();
+        private Dictionary<PictureBox, Image> borderImages = new Dictionary<PictureBox, Image>();
+        private Dictionary<PictureBox, Image> borderBrightenedImages = new Dictionary<PictureBox, Image>();
+        private PictureBox clickedKey;
 
         public Form1()
         {
@@ -185,7 +191,7 @@ namespace Streamdeck
                     LaunchProgram(Programs[index]);
                 }
             }
-            else if ((int.Parse(input) -1) >= 0 && (int.Parse(input) - 1) < 9)
+            else if ((int.Parse(input) - 1) >= 0 && (int.Parse(input) - 1) < 9)
             {
                 int index = int.Parse(input) - 1;
                 PlaySound(Sounds[index]);
@@ -384,10 +390,11 @@ namespace Streamdeck
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if(timeLeftToCheck > 0)
+            if (timeLeftToCheck > 0)
             {
                 timeLeftToCheck = timeLeftToCheck - 1;
-            } else
+            }
+            else
             {
                 if (connectedLabel.Text == "Unconnected")
                 {
@@ -403,6 +410,337 @@ namespace Streamdeck
                 }
                 timeLeftToCheck = 30;
             }
+        }
+
+        private void numpad_1_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_1_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_1_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_2_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_2_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_2_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_3_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_3_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_3_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_4_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_4_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_4_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_5_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_5_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_5_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_6_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_6_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_6_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_7_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_7_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_7_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_8_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_8_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_8_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_9_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_9_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_9_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_0_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_0_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_0_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_star_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_star_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_star_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_hashtag_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_hashtag_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_hashtag_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_A_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_A_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_A_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_B_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_B_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_B_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_C_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_C_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_C_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private void numpad_D_hover(object sender, EventArgs e)
+        {
+            hoverNumpad(sender);
+        }
+
+        private void numpad_D_leave(object sender, EventArgs e)
+        {
+            leaveNumpad(sender);
+        }
+
+        private void numpad_D_Click(object sender, EventArgs e)
+        {
+            clickNumpad(sender);
+        }
+
+        private async void hoverNumpad(object sender)
+        {
+            PictureBox picBox = sender as PictureBox;
+            if (picBox != null)
+            {
+                if (clickedKey == picBox)
+                    picBox.Image = borderBrightenedImages[picBox];
+                else
+                    picBox.Image = brightenedImages[picBox];
+            }
+        }
+
+        private async void leaveNumpad(object sender)
+        {
+            PictureBox picBox = sender as PictureBox;
+            if (picBox != null)
+            {
+                if (clickedKey == picBox)
+                    picBox.Image = borderImages[picBox];
+                else
+                    picBox.Image = originalImages[picBox];
+            }
+        }
+
+        private void clickNumpad(object sender)
+        {
+            PictureBox picBox = sender as PictureBox;
+            if (picBox != null)
+            {
+                picBox.Image = drawBorder(picBox);
+                clickedKey = picBox;
+            }
+        }
+
+
+
+        private Image AdjustGamma(Image image, float gammaFactor)
+        {
+            Bitmap temp = new Bitmap(image.Width, image.Height);
+            using (Graphics g = Graphics.FromImage(temp))
+            {
+                // Create a color matrix and set the gamma
+                ImageAttributes attributes = new ImageAttributes();
+                attributes.SetGamma(gammaFactor);
+
+                // Draw the original image with the gamma adjustment
+                g.DrawImage(image, new Rectangle(0, 0, temp.Width, temp.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
+            }
+            return temp;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            foreach (Control control in GetAllControls(this))
+            {
+                PictureBox picBox = control as PictureBox;
+                if (picBox != null && picBox.Image != null)
+                {
+                    originalImages[picBox] = picBox.Image;
+                    brightenedImages[picBox] = AdjustGamma(picBox.Image, 1.5f);
+                    borderImages[picBox] = drawBorder(picBox);
+                    borderBrightenedImages[picBox] = AdjustGamma(borderImages[picBox], 1.5f);
+                }
+            }
+        }
+
+        private IEnumerable<Control> GetAllControls(Control parent)
+        {
+            foreach (Control control in parent.Controls)
+            {
+                yield return control;
+
+                // Recursively search through all child controls
+                foreach (Control childControl in GetAllControls(control))
+                {
+                    yield return childControl;
+                }
+            }
+        }
+
+        private Image drawBorder(PictureBox picBox)
+        {
+            Bitmap temp = new Bitmap(picBox.Image.Width, picBox.Image.Height);
+            using (Graphics g = Graphics.FromImage(temp))
+            {
+                g.DrawImage(picBox.Image, 0, 0);
+                g.DrawRectangle(new Pen(Color.Blue, 4), 0, 0, picBox.Image.Width, picBox.Image.Height);
+            }
+            return temp;
         }
     }
 
