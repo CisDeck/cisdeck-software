@@ -273,6 +273,16 @@ namespace Streamdeck.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_rocket {
+            get {
+                object obj = ResourceManager.GetObject("icon_rocket", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap loading_cicle_white {
             get {
                 object obj = ResourceManager.GetObject("loading-cicle white", resourceCulture);

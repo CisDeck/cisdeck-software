@@ -38,6 +38,16 @@ namespace Streamdeck
             timeLeftToCheck = 30;
             timer1.Start();
             File.Delete("options.txt");
+            if (listView1.Columns.Count == 0)
+            {
+                listView1.Columns.Add(new ColumnHeader());  // Add an empty column
+            }
+            listView1.OwnerDraw = true;
+            listView1.Columns[0].Width = 300;
+            foreach (ListViewItem item in listView1.Items)
+            {
+                item.BackColor = Color.FromArgb(40, 40, 40);
+            }
         }
 
         private void LoadOptions()
@@ -69,41 +79,21 @@ namespace Streamdeck
         private void UpdateUI()
         {
             textBoxA.Text = Programs[0];
-            textBoxB.Text = Programs[1];
-            textBoxC.Text = Programs[2];
-            textBoxD.Text = Programs[3];
+
             textBoxSound1.Text = Sounds[0];
-            textBoxSound2.Text = Sounds[1];
-            textBoxSound3.Text = Sounds[2];
-            textBoxSound4.Text = Sounds[3];
-            textBoxSound5.Text = Sounds[4];
-            textBoxSound6.Text = Sounds[5];
-            textBoxSound7.Text = Sounds[6];
-            textBoxSound8.Text = Sounds[7];
-            textBoxSound9.Text = Sounds[8];
+
             starScriptBox.Text = Specials[0];
-            hashtagScriptBox.Text = Specials[1];
-            zeroScriptBox.Text = Specials[2];
+
         }
 
         private void SaveOptions()
         {
             Programs[0] = textBoxA.Text;
-            Programs[1] = textBoxB.Text;
-            Programs[2] = textBoxC.Text;
-            Programs[3] = textBoxD.Text;
+
             Sounds[0] = textBoxSound1.Text;
-            Sounds[1] = textBoxSound2.Text;
-            Sounds[2] = textBoxSound3.Text;
-            Sounds[3] = textBoxSound4.Text;
-            Sounds[4] = textBoxSound5.Text;
-            Sounds[5] = textBoxSound6.Text;
-            Sounds[6] = textBoxSound7.Text;
-            Sounds[7] = textBoxSound8.Text;
-            Sounds[8] = textBoxSound9.Text;
+
             Specials[0] = starScriptBox.Text;
-            Specials[1] = hashtagScriptBox.Text;
-            Specials[2] = zeroScriptBox.Text;
+
 
 
             File.WriteAllLines("options.txt", Programs);
@@ -275,111 +265,12 @@ namespace Streamdeck
             }
         }
 
-        private void browseButton2_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound2.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseButton3_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound3.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseButton4_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound4.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseButton5_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound5.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseButton6_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound6.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseButton7_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound7.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseButton8_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound8.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseButton9_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound9.Text = fdlg.FileName;
-            }
-        }
-
         private void browseProgramButton1_Click(object sender, EventArgs e)
         {
             OpenFileDialog fdlg = new OpenFileDialog();
             if (fdlg.ShowDialog() == DialogResult.OK)
             {
                 textBoxA.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseProgramButton2_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxB.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseProgramButton3_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxC.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseProgramButton4_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxD.Text = fdlg.FileName;
             }
         }
 
@@ -681,12 +572,33 @@ namespace Streamdeck
             PictureBox picBox = sender as PictureBox;
             if (picBox != null)
             {
+                if (clickedKey != null)
+                    clickedKey.Image = originalImages[clickedKey];
                 picBox.Image = drawBorder(picBox);
                 clickedKey = picBox;
             }
         }
 
+        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Check if any item is selected
+            if (listView1.SelectedItems.Count > 0)
+            {
+                // Get the selected item (assuming single select, so the first selected item)
+                ListViewItem selectedItem = listView1.SelectedItems[0];
 
+                selectedItem.BackColor = Color.Blue;
+
+                
+            }
+            else
+            {
+                foreach(ListViewItem item in listView1.Items)
+                {
+                    item.BackColor = Color.FromArgb(40, 40, 40);
+                }
+            }
+        }
 
         private Image AdjustGamma(Image image, float gammaFactor)
         {
@@ -742,6 +654,7 @@ namespace Streamdeck
             }
             return temp;
         }
+
     }
 
 }
