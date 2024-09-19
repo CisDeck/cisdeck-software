@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Streamdeck")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bf1c7f6b04d8332596e67d500489008e334da672")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c37e6aa4c2fa2562de81f9a25ede9e3e3b68c1e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Streamdeck")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Streamdeck")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

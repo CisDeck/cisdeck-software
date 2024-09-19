@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Streamdeck", "Streamdeck.csproj", "{AA01EE43-6E8A-4698-88C3-13EA3A91DC65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Streamdeck", "Streamdeck.csproj", "{AA01EE43-6E8A-4698-88C3-13EA3A91DC65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{5E73DD60-BFAB-47F7-9D69-5D4F7EE6FB91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

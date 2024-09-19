@@ -1,0 +1,134 @@
+{
+  "panels": [
+    {
+      "key0": {
+        "name": "hsa",
+        "functions": {
+          "playsound": "C:\\Users\\Samuele\\Music\\beep.mp3",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key1": {
+        "name": "1",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key2": {
+        "name": "2",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key3": {
+        "name": "3",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key4": {
+        "name": "4",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key5": {
+        "name": "5",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key6": {
+        "name": "6",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key7": {
+        "name": "7",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key8": {
+        "name": "8",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key9": {
+        "name": "9",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyA": {
+        "name": "A",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyB": {
+        "name": "B",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyC": {
+        "name": "C",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyD": {
+        "name": "D",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keystar": {
+        "name": "star",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyhashtag": {
+        "name": "hashtag",
+        "functions": {
+          "playsound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      }
+    }
+  ]
+}

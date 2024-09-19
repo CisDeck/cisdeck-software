@@ -31,32 +31,23 @@
             components = new System.ComponentModel.Container();
             ListViewItem listViewItem1 = new ListViewItem(new string[] { "Play Sound" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
             ListViewItem listViewItem2 = new ListViewItem(new string[] { "Launch" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
+            ListViewItem listViewItem3 = new ListViewItem(new string[] { "Open Website" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             pictureBox1 = new PictureBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            panel1 = new Panel();
-            label1 = new Label();
-            tableLayoutPanel2 = new TableLayoutPanel();
+            configurePanelDefault = new Panel();
             label2 = new Label();
-            textBoxSound1 = new TextBox();
-            browseButton1 = new Button();
-            panel2 = new Panel();
-            label11 = new Label();
-            tableLayoutPanel3 = new TableLayoutPanel();
-            label14 = new Label();
-            textBoxA = new TextBox();
-            browseProgramButton1 = new Button();
-            panel3 = new Panel();
+            reusablePanel = new Panel();
+            textBoxConfig1AKey = new TextBox();
             applyButton = new Button();
+            label4 = new Label();
+            textBoxNameA = new TextBox();
+            label3 = new Label();
+            labelNameA = new Label();
+            panel3 = new Panel();
             textBoxPort = new TextBox();
             connectButton = new Button();
             connectedLabel = new Label();
-            pictureBox2 = new PictureBox();
-            panel4 = new Panel();
-            label17 = new Label();
-            tableLayoutPanel4 = new TableLayoutPanel();
-            label19 = new Label();
-            starScriptBox = new TextBox();
             contextMenuStrip2 = new ContextMenuStrip(components);
             timer1 = new System.Windows.Forms.Timer(components);
             panel5 = new Panel();
@@ -80,14 +71,9 @@
             numpad_1 = new PictureBox();
             columnHeader1 = new ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            panel1.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
-            panel2.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
+            configurePanelDefault.SuspendLayout();
+            reusablePanel.SuspendLayout();
             panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            panel4.SuspendLayout();
-            tableLayoutPanel4.SuspendLayout();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numpad_4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numpad_5).BeginInit();
@@ -124,179 +110,52 @@
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(61, 4);
             // 
-            // panel1
+            // configurePanelDefault
             // 
-            panel1.BackColor = Color.FromArgb(35, 35, 35);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(tableLayoutPanel2);
-            panel1.Location = new Point(863, 169);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(372, 275);
-            panel1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Emoji", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(3, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(181, 26);
-            label1.TabIndex = 0;
-            label1.Text = "Sounds Allocation";
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.9156628F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 71.0843353F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
-            tableLayoutPanel2.Controls.Add(label2, 0, 0);
-            tableLayoutPanel2.Controls.Add(textBoxSound1, 1, 0);
-            tableLayoutPanel2.Controls.Add(browseButton1, 2, 0);
-            tableLayoutPanel2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            tableLayoutPanel2.Location = new Point(3, 45);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 1;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel2.Size = new Size(366, 209);
-            tableLayoutPanel2.TabIndex = 0;
+            configurePanelDefault.BackColor = Color.FromArgb(35, 35, 35);
+            configurePanelDefault.Controls.Add(label2);
+            configurePanelDefault.Location = new Point(3, 465);
+            configurePanelDefault.Name = "configurePanelDefault";
+            configurePanelDefault.Size = new Size(631, 275);
+            configurePanelDefault.TabIndex = 1;
             // 
             // label2
             // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Emoji", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(3, 0);
+            label2.ForeColor = Color.DimGray;
+            label2.Location = new Point(209, 124);
             label2.Name = "label2";
-            label2.Size = new Size(78, 209);
+            label2.Size = new Size(190, 15);
             label2.TabIndex = 0;
-            label2.Text = "1";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
+            label2.Text = "Select a key to configure its action.";
             // 
-            // textBoxSound1
+            // reusablePanel
             // 
-            textBoxSound1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            textBoxSound1.BackColor = Color.FromArgb(35, 35, 35);
-            textBoxSound1.BorderStyle = BorderStyle.FixedSingle;
-            textBoxSound1.Font = new Font("Arial", 9F);
-            textBoxSound1.ForeColor = Color.White;
-            textBoxSound1.Location = new Point(110, 3);
-            textBoxSound1.Name = "textBoxSound1";
-            textBoxSound1.Size = new Size(154, 21);
-            textBoxSound1.TabIndex = 1;
+            reusablePanel.BackColor = Color.FromArgb(35, 35, 35);
+            reusablePanel.Controls.Add(textBoxConfig1AKey);
+            reusablePanel.Controls.Add(applyButton);
+            reusablePanel.Controls.Add(label4);
+            reusablePanel.Controls.Add(textBoxNameA);
+            reusablePanel.Controls.Add(label3);
+            reusablePanel.Controls.Add(labelNameA);
+            reusablePanel.Location = new Point(946, 45);
+            reusablePanel.Name = "reusablePanel";
+            reusablePanel.Size = new Size(631, 275);
+            reusablePanel.TabIndex = 2;
             // 
-            // browseButton1
+            // textBoxConfig1AKey
             // 
-            browseButton1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            browseButton1.ForeColor = Color.White;
-            browseButton1.Location = new Point(293, 3);
-            browseButton1.Name = "browseButton1";
-            browseButton1.Size = new Size(70, 203);
-            browseButton1.TabIndex = 2;
-            browseButton1.Text = "Browse";
-            browseButton1.UseVisualStyleBackColor = true;
-            browseButton1.Click += browseButton1_Click;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.FromArgb(35, 35, 35);
-            panel2.Controls.Add(label11);
-            panel2.Controls.Add(tableLayoutPanel3);
-            panel2.Location = new Point(1257, 85);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(328, 275);
-            panel2.TabIndex = 3;
-            // 
-            // label11
-            // 
-            label11.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI Emoji", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.ForeColor = Color.White;
-            label11.Location = new Point(3, 0);
-            label11.Name = "label11";
-            label11.Size = new Size(202, 26);
-            label11.TabIndex = 0;
-            label11.Text = "Programs Allocation";
-            // 
-            // tableLayoutPanel3
-            // 
-            tableLayoutPanel3.ColumnCount = 3;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.9156628F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 71.0843353F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
-            tableLayoutPanel3.Controls.Add(label14, 0, 0);
-            tableLayoutPanel3.Controls.Add(textBoxA, 1, 0);
-            tableLayoutPanel3.Controls.Add(browseProgramButton1, 2, 0);
-            tableLayoutPanel3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            tableLayoutPanel3.Location = new Point(3, 45);
-            tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 1;
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel3.Size = new Size(325, 206);
-            tableLayoutPanel3.TabIndex = 0;
-            // 
-            // label14
-            // 
-            label14.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI Emoji", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = Color.White;
-            label14.Location = new Point(3, 0);
-            label14.Name = "label14";
-            label14.Size = new Size(66, 206);
-            label14.TabIndex = 0;
-            label14.Text = "A";
-            label14.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // textBoxA
-            // 
-            textBoxA.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            textBoxA.BackColor = Color.FromArgb(35, 35, 35);
-            textBoxA.BorderStyle = BorderStyle.FixedSingle;
-            textBoxA.Font = new Font("Arial", 9F);
-            textBoxA.ForeColor = Color.White;
-            textBoxA.Location = new Point(83, 3);
-            textBoxA.Name = "textBoxA";
-            textBoxA.Size = new Size(154, 21);
-            textBoxA.TabIndex = 1;
-            // 
-            // browseProgramButton1
-            // 
-            browseProgramButton1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            browseProgramButton1.ForeColor = Color.White;
-            browseProgramButton1.Location = new Point(252, 3);
-            browseProgramButton1.Name = "browseProgramButton1";
-            browseProgramButton1.Size = new Size(70, 200);
-            browseProgramButton1.TabIndex = 2;
-            browseProgramButton1.Text = "Browse";
-            browseProgramButton1.UseVisualStyleBackColor = true;
-            browseProgramButton1.Click += browseProgramButton1_Click;
-            // 
-            // panel3
-            // 
-            panel3.Controls.Add(applyButton);
-            panel3.Controls.Add(textBoxPort);
-            panel3.Controls.Add(connectButton);
-            panel3.Controls.Add(connectedLabel);
-            panel3.Location = new Point(1071, 666);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(387, 273);
-            panel3.TabIndex = 4;
+            textBoxConfig1AKey.BackColor = Color.FromArgb(20, 20, 20);
+            textBoxConfig1AKey.BorderStyle = BorderStyle.FixedSingle;
+            textBoxConfig1AKey.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBoxConfig1AKey.ForeColor = Color.White;
+            textBoxConfig1AKey.Location = new Point(186, 109);
+            textBoxConfig1AKey.Name = "textBoxConfig1AKey";
+            textBoxConfig1AKey.Size = new Size(169, 23);
+            textBoxConfig1AKey.TabIndex = 4;
+            textBoxConfig1AKey.Text = "Click here to browse";
+            textBoxConfig1AKey.MouseClick += textBox2_MouseClick;
+            textBoxConfig1AKey.MouseMove += textBox2_MouseMove;
             // 
             // applyButton
             // 
@@ -307,13 +166,67 @@
             applyButton.FlatAppearance.MouseOverBackColor = Color.Black;
             applyButton.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             applyButton.ForeColor = Color.White;
-            applyButton.Location = new Point(292, 217);
+            applyButton.Location = new Point(542, 223);
             applyButton.Name = "applyButton";
             applyButton.Size = new Size(86, 49);
             applyButton.TabIndex = 2;
             applyButton.Text = "Apply";
             applyButton.UseVisualStyleBackColor = false;
             applyButton.Click += applyButton_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(132, 109);
+            label4.Name = "label4";
+            label4.Size = new Size(50, 17);
+            label4.TabIndex = 3;
+            label4.Text = "Sound:";
+            // 
+            // textBoxNameA
+            // 
+            textBoxNameA.BackColor = Color.FromArgb(20, 20, 20);
+            textBoxNameA.BorderStyle = BorderStyle.FixedSingle;
+            textBoxNameA.ForeColor = Color.White;
+            textBoxNameA.Location = new Point(186, 75);
+            textBoxNameA.Name = "textBoxNameA";
+            textBoxNameA.Size = new Size(169, 23);
+            textBoxNameA.TabIndex = 2;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(132, 76);
+            label3.Name = "label3";
+            label3.Size = new Size(47, 17);
+            label3.TabIndex = 1;
+            label3.Text = "Name:";
+            // 
+            // labelNameA
+            // 
+            labelNameA.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            labelNameA.AutoSize = true;
+            labelNameA.Font = new Font("Segoe UI Emoji", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelNameA.ForeColor = Color.White;
+            labelNameA.Location = new Point(19, 16);
+            labelNameA.Name = "labelNameA";
+            labelNameA.Size = new Size(204, 26);
+            labelNameA.TabIndex = 0;
+            labelNameA.Text = "A - Key - Play Sound";
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(textBoxPort);
+            panel3.Controls.Add(connectButton);
+            panel3.Controls.Add(connectedLabel);
+            panel3.Location = new Point(1071, 666);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(387, 273);
+            panel3.TabIndex = 4;
             // 
             // textBoxPort
             // 
@@ -352,77 +265,6 @@
             connectedLabel.TabIndex = 3;
             connectedLabel.Text = "Unconnected";
             // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = Properties.Resources.commandlist_black;
-            pictureBox2.Location = new Point(692, 498);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(328, 453);
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.FromArgb(35, 35, 35);
-            panel4.Controls.Add(label17);
-            panel4.Controls.Add(tableLayoutPanel4);
-            panel4.Location = new Point(1448, 395);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(372, 275);
-            panel4.TabIndex = 5;
-            // 
-            // label17
-            // 
-            label17.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI Emoji", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.ForeColor = Color.White;
-            label17.Location = new Point(3, 0);
-            label17.Name = "label17";
-            label17.Size = new Size(136, 26);
-            label17.TabIndex = 0;
-            label17.Text = "Custom Code";
-            // 
-            // tableLayoutPanel4
-            // 
-            tableLayoutPanel4.ColumnCount = 2;
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel4.Controls.Add(label19, 0, 0);
-            tableLayoutPanel4.Controls.Add(starScriptBox, 1, 0);
-            tableLayoutPanel4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            tableLayoutPanel4.Location = new Point(14, 45);
-            tableLayoutPanel4.Name = "tableLayoutPanel4";
-            tableLayoutPanel4.RowCount = 1;
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel4.Size = new Size(342, 203);
-            tableLayoutPanel4.TabIndex = 0;
-            // 
-            // label19
-            // 
-            label19.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label19.AutoSize = true;
-            label19.Font = new Font("Segoe UI Emoji", 20F, FontStyle.Bold);
-            label19.ForeColor = Color.White;
-            label19.Location = new Point(3, 0);
-            label19.Name = "label19";
-            label19.Size = new Size(116, 203);
-            label19.TabIndex = 0;
-            label19.Text = "*";
-            label19.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // starScriptBox
-            // 
-            starScriptBox.AcceptsTab = true;
-            starScriptBox.Location = new Point(125, 3);
-            starScriptBox.Multiline = true;
-            starScriptBox.Name = "starScriptBox";
-            starScriptBox.Size = new Size(210, 197);
-            starScriptBox.TabIndex = 2;
-            // 
             // contextMenuStrip2
             // 
             contextMenuStrip2.ImageScalingSize = new Size(20, 20);
@@ -435,6 +277,7 @@
             // 
             // panel5
             // 
+            panel5.Controls.Add(reusablePanel);
             panel5.Controls.Add(listView1);
             panel5.Controls.Add(numpad_4);
             panel5.Controls.Add(numpad_5);
@@ -452,12 +295,9 @@
             panel5.Controls.Add(numpad_0);
             panel5.Controls.Add(numpad_D);
             panel5.Controls.Add(numpad_1);
-            panel5.Controls.Add(panel4);
-            panel5.Controls.Add(panel2);
             panel5.Controls.Add(panel3);
-            panel5.Controls.Add(panel1);
+            panel5.Controls.Add(configurePanelDefault);
             panel5.Controls.Add(pictureBox1);
-            panel5.Controls.Add(pictureBox2);
             panel5.Location = new Point(12, 12);
             panel5.Name = "panel5";
             panel5.Size = new Size(1850, 942);
@@ -465,14 +305,18 @@
             // 
             // listView1
             // 
+            listView1.Activation = ItemActivation.OneClick;
             listView1.Alignment = ListViewAlignment.Left;
             listView1.BackColor = Color.FromArgb(24, 24, 24);
             listView1.BorderStyle = BorderStyle.FixedSingle;
+            listView1.FullRowSelect = true;
             listView1.HeaderStyle = ColumnHeaderStyle.None;
             listViewItem1.StateImageIndex = 0;
             listViewItem2.Checked = true;
             listViewItem2.StateImageIndex = 1;
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2 });
+            listViewItem3.Checked = true;
+            listViewItem3.StateImageIndex = 2;
+            listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3 });
             listView1.Location = new Point(334, 3);
             listView1.MultiSelect = false;
             listView1.Name = "listView1";
@@ -483,6 +327,8 @@
             listView1.View = View.List;
             listView1.DrawItem += DrawListViewItem;
             listView1.SelectedIndexChanged += ListView1_SelectedIndexChanged;
+            listView1.MouseClick += ListView1_MouseClick;
+            listView1.MouseMove += ListView1_MouseMove;
             // 
             // imageList
             // 
@@ -491,6 +337,7 @@
             imageList.TransparentColor = Color.Transparent;
             imageList.Images.SetKeyName(0, "icons8-sound-50.png");
             imageList.Images.SetKeyName(1, "icon_rocket.png");
+            imageList.Images.SetKeyName(2, "icons8-internet-50.png");
             // 
             // numpad_4
             // 
@@ -502,6 +349,7 @@
             numpad_4.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_4.TabIndex = 21;
             numpad_4.TabStop = false;
+            numpad_4.Tag = "4";
             numpad_4.MouseClick += numpad_4_Click;
             numpad_4.MouseEnter += numpad_4_hover;
             numpad_4.MouseLeave += numpad_4_leave;
@@ -516,6 +364,7 @@
             numpad_5.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_5.TabIndex = 20;
             numpad_5.TabStop = false;
+            numpad_5.Tag = "5";
             numpad_5.MouseClick += numpad_5_Click;
             numpad_5.MouseEnter += numpad_5_hover;
             numpad_5.MouseLeave += numpad_5_leave;
@@ -530,6 +379,7 @@
             numpad_6.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_6.TabIndex = 19;
             numpad_6.TabStop = false;
+            numpad_6.Tag = "6";
             numpad_6.MouseClick += numpad_6_Click;
             numpad_6.MouseEnter += numpad_6_hover;
             numpad_6.MouseLeave += numpad_6_leave;
@@ -544,6 +394,7 @@
             numpad_7.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_7.TabIndex = 18;
             numpad_7.TabStop = false;
+            numpad_7.Tag = "7";
             numpad_7.MouseClick += numpad_7_Click;
             numpad_7.MouseEnter += numpad_7_hover;
             numpad_7.MouseLeave += numpad_7_leave;
@@ -558,6 +409,7 @@
             numpad_8.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_8.TabIndex = 17;
             numpad_8.TabStop = false;
+            numpad_8.Tag = "8";
             numpad_8.MouseClick += numpad_8_Click;
             numpad_8.MouseEnter += numpad_8_hover;
             numpad_8.MouseLeave += numpad_8_leave;
@@ -572,6 +424,7 @@
             numpad_9.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_9.TabIndex = 16;
             numpad_9.TabStop = false;
+            numpad_9.Tag = "9";
             numpad_9.MouseClick += numpad_9_Click;
             numpad_9.MouseEnter += numpad_9_hover;
             numpad_9.MouseLeave += numpad_9_leave;
@@ -586,6 +439,7 @@
             numpad_star.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_star.TabIndex = 15;
             numpad_star.TabStop = false;
+            numpad_star.Tag = "star";
             numpad_star.MouseClick += numpad_star_Click;
             numpad_star.MouseEnter += numpad_star_hover;
             numpad_star.MouseLeave += numpad_star_leave;
@@ -600,6 +454,7 @@
             numpad_hashtag.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_hashtag.TabIndex = 14;
             numpad_hashtag.TabStop = false;
+            numpad_hashtag.Tag = "hashtag";
             numpad_hashtag.MouseClick += numpad_hashtag_Click;
             numpad_hashtag.MouseEnter += numpad_hashtag_hover;
             numpad_hashtag.MouseLeave += numpad_hashtag_leave;
@@ -614,6 +469,7 @@
             numpad_A.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_A.TabIndex = 13;
             numpad_A.TabStop = false;
+            numpad_A.Tag = "A";
             numpad_A.MouseClick += numpad_A_Click;
             numpad_A.MouseEnter += numpad_A_hover;
             numpad_A.MouseLeave += numpad_A_leave;
@@ -628,6 +484,7 @@
             numpad_B.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_B.TabIndex = 12;
             numpad_B.TabStop = false;
+            numpad_B.Tag = "B";
             numpad_B.MouseClick += numpad_B_Click;
             numpad_B.MouseEnter += numpad_B_hover;
             numpad_B.MouseLeave += numpad_B_leave;
@@ -642,6 +499,7 @@
             numpad_C.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_C.TabIndex = 11;
             numpad_C.TabStop = false;
+            numpad_C.Tag = "C";
             numpad_C.MouseClick += numpad_C_Click;
             numpad_C.MouseEnter += numpad_C_hover;
             numpad_C.MouseLeave += numpad_C_leave;
@@ -656,6 +514,7 @@
             numpad_3.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_3.TabIndex = 10;
             numpad_3.TabStop = false;
+            numpad_3.Tag = "3";
             numpad_3.MouseClick += numpad_3_Click;
             numpad_3.MouseEnter += numpad_3_hover;
             numpad_3.MouseLeave += numpad_3_leave;
@@ -670,6 +529,7 @@
             numpad_2.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_2.TabIndex = 9;
             numpad_2.TabStop = false;
+            numpad_2.Tag = "2";
             numpad_2.MouseClick += numpad_2_Click;
             numpad_2.MouseEnter += numpad_2_hover;
             numpad_2.MouseLeave += numpad_2_leave;
@@ -684,6 +544,7 @@
             numpad_0.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_0.TabIndex = 9;
             numpad_0.TabStop = false;
+            numpad_0.Tag = "0";
             numpad_0.MouseClick += numpad_0_Click;
             numpad_0.MouseEnter += numpad_0_hover;
             numpad_0.MouseLeave += numpad_0_leave;
@@ -698,6 +559,7 @@
             numpad_D.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_D.TabIndex = 8;
             numpad_D.TabStop = false;
+            numpad_D.Tag = "D";
             numpad_D.MouseClick += numpad_D_Click;
             numpad_D.MouseEnter += numpad_D_hover;
             numpad_D.MouseLeave += numpad_D_leave;
@@ -712,6 +574,7 @@
             numpad_1.SizeMode = PictureBoxSizeMode.Zoom;
             numpad_1.TabIndex = 7;
             numpad_1.TabStop = false;
+            numpad_1.Tag = "1";
             numpad_1.MouseClick += numpad_1_Click;
             numpad_1.MouseEnter += numpad_1_hover;
             numpad_1.MouseLeave += numpad_1_leave;
@@ -732,21 +595,12 @@
             Text = "CisDeck";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            tableLayoutPanel3.ResumeLayout(false);
-            tableLayoutPanel3.PerformLayout();
+            configurePanelDefault.ResumeLayout(false);
+            configurePanelDefault.PerformLayout();
+            reusablePanel.ResumeLayout(false);
+            reusablePanel.PerformLayout();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            panel4.ResumeLayout(false);
-            panel4.PerformLayout();
-            tableLayoutPanel4.ResumeLayout(false);
-            tableLayoutPanel4.PerformLayout();
             panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numpad_4).EndInit();
             ((System.ComponentModel.ISupportInitialize)numpad_5).EndInit();
@@ -769,8 +623,8 @@
 
         private void DrawListViewItem(object sender, DrawListViewItemEventArgs e)
         {
-            // Define the width for each item
-            int itemWidth = 300;
+            // Define the width for each item to fill the entire ListView width
+            int itemWidth = listView1.ClientSize.Width;
 
             // Get the item and state image index
             ListViewItem item = e.Item;
@@ -778,31 +632,34 @@
 
             // Set the background color (item-specific or default)
             Color backgroundColor = item.BackColor != Color.Empty ? item.BackColor : Color.FromArgb(24, 24, 24);
-            e.Graphics.FillRectangle(new SolidBrush(backgroundColor), e.Bounds);
+            e.Graphics.FillRectangle(new SolidBrush(backgroundColor), new Rectangle(e.Bounds.Left, e.Bounds.Top, itemWidth, e.Bounds.Height));
+
+            // Define the image offsets
+            int imageOffset = 8; // 8-pixel offset on both sides
 
             // Draw the state image (if available)
             if (stateImageIndex >= 0 && listView1.StateImageList != null)
             {
-                // Calculate where to draw the image
-                int imageX = e.Bounds.Left + 4;  // Offset from the left for spacing
-                int imageY = e.Bounds.Top + (e.Bounds.Height - listView1.StateImageList.ImageSize.Height) / 2;
+                // Get the image from the ImageList
+                Image image = listView1.StateImageList.Images[stateImageIndex];
 
-                // Draw the image
-                listView1.StateImageList.Draw(e.Graphics, new Point(imageX, imageY), stateImageIndex);
+                if (image != null)
+                {
+                    // Calculate where to draw the image with offset
+                    int imageX = e.Bounds.Left + imageOffset;  // Left offset
+                    int imageY = e.Bounds.Top + (e.Bounds.Height - image.Height) / 2;
+
+                    // Draw the image with transparency handling
+                    e.Graphics.DrawImage(image, new Rectangle(imageX, imageY, image.Width, image.Height));
+                }
             }
 
-            // Adjust text drawing to account for image width (if there's an image)
-            int textX = stateImageIndex >= 0 ? e.Bounds.Left + listView1.StateImageList.ImageSize.Width + 8 : e.Bounds.Left + 4;
-            int textWidth = itemWidth - (textX - e.Bounds.Left);
+            // Adjust text drawing to account for image width and add right offset
+            int textX = stateImageIndex >= 0 ? e.Bounds.Left + listView1.StateImageList.ImageSize.Width + 2 * imageOffset : e.Bounds.Left + imageOffset;
+            int textWidth = itemWidth - (textX - e.Bounds.Left) - imageOffset;  // Subtract right offset
 
             // Draw the item text
             e.Graphics.DrawString(item.Text, item.Font, Brushes.White, new Rectangle(textX, e.Bounds.Top, textWidth, e.Bounds.Height));
-
-            // Draw focus rectangle if the item is focused
-            if (e.State.HasFlag(ListViewItemStates.Focused))
-            {
-                e.DrawFocusRectangle();
-            }
         }
 
         private void Numpad_1_MouseLeave(object sender, EventArgs e)
@@ -830,31 +687,15 @@
 
         private PictureBox pictureBox1;
         private ContextMenuStrip contextMenuStrip1;
-        private Panel panel1;
-        private Label label1;
-        private TableLayoutPanel tableLayoutPanel2;
-        private Label label2;
-        private TextBox textBoxSound1;
-        private Button browseButton1;
+        private Panel configurePanelDefault;
+        private Label labelNameA;
         private ContextMenuStrip contextMenuStrip2;
-        private Panel panel2;
-        private Label label11;
-        private TableLayoutPanel tableLayoutPanel3;
-        private Label label14;
-        private TextBox textBoxA;
-        private Button browseProgramButton1;
         private System.Windows.Forms.Timer timer1;
-        private TextBox starScriptBox;
-        private Panel panel4;
-        private Label label17;
-        private TableLayoutPanel tableLayoutPanel4;
-        private Label label19;
         private Panel panel3;
         private TextBox textBoxPort;
         private Button connectButton;
         private Label connectedLabel;
         private Button applyButton;
-        private PictureBox pictureBox2;
         private Panel panel5;
         private PictureBox numpad_4;
         private PictureBox numpad_5;
@@ -875,5 +716,11 @@
         private ListView listView1;
         private ImageList imageList;
         private ColumnHeader columnHeader1;
+        private Label label2;
+        private Panel reusablePanel;
+        private Label label4;
+        private TextBox textBoxNameA;
+        private Label label3;
+        private TextBox textBoxConfig1AKey;
     }
 }

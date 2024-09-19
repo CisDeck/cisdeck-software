@@ -1,0 +1,134 @@
+{
+  "panels": [
+    {
+      "key0": {
+        "name": "0",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key1": {
+        "name": "1",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key2": {
+        "name": "2",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key3": {
+        "name": "3",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key4": {
+        "name": "4",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key5": {
+        "name": "5",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key6": {
+        "name": "6",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key7": {
+        "name": "7",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key8": {
+        "name": "8",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key9": {
+        "name": "9",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyA": {
+        "name": "A",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyB": {
+        "name": "B",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyC": {
+        "name": "C",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyD": {
+        "name": "D",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keystar": {
+        "name": "star",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyhashtag": {
+        "name": "hashtag",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      }
+    }
+  ]
+}

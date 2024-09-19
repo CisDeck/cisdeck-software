@@ -12,6 +12,8 @@ using System.Windows;
 using System.ComponentModel;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing.Imaging;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Streamdeck
 {
@@ -29,6 +31,8 @@ namespace Streamdeck
         private Dictionary<PictureBox, Image> borderImages = new Dictionary<PictureBox, Image>();
         private Dictionary<PictureBox, Image> borderBrightenedImages = new Dictionary<PictureBox, Image>();
         private PictureBox clickedKey;
+        private string chosenFunction;
+        private PanelManager panelManager = new PanelManager();
 
         public Form1()
         {
@@ -48,6 +52,10 @@ namespace Streamdeck
             {
                 item.BackColor = Color.FromArgb(40, 40, 40);
             }
+            listView1.Focus();
+            listView1.FullRowSelect = true;
+            changePanel(configurePanelDefault);
+            panelManager.PopulatePanel(reusablePanel, "0");
         }
 
         private void LoadOptions()
@@ -78,27 +86,46 @@ namespace Streamdeck
 
         private void UpdateUI()
         {
-            textBoxA.Text = Programs[0];
-
-            textBoxSound1.Text = Sounds[0];
-
-            starScriptBox.Text = Specials[0];
 
         }
 
-        private void SaveOptions()
+        private void SaveOptions(Panel panel)
         {
-            Programs[0] = textBoxA.Text;
 
-            Sounds[0] = textBoxSound1.Text;
+            string json = File.ReadAllText("options.json");
 
-            Specials[0] = starScriptBox.Text;
+            //Deserialize from file to object:
+            var rootObject = new RootObject();
+            JsonConvert.PopulateObject(json, rootObject);
+
+            //Change Value
+            string name = "";
+            string function = "";
+            foreach (Control control in panel.Controls)
+            {
+                if (control is TextBox)
+                {
+                    TextBox textBox = control as TextBox;
+                    if (textBox.Name.Contains("textBoxName"))
+                    {
+                        name = textBox.Text;
+                    }
+                    else if (textBox.Name.Contains("textBoxConfig"))
+                    {
+                        function = textBox.Text;
+                    }
+                }
+            }
+            rootObject.panels[0].key1.name = name;
+            //rootObject.panels[0].key1.functions = new Functions("", "", "");
 
 
-
-            File.WriteAllLines("options.txt", Programs);
-            File.AppendAllLines("options.txt", Sounds);
-            File.AppendAllLines("options.txt", Specials);
+            // serialize JSON directly to a file again
+            using (StreamWriter file = File.CreateText(@"PATH TO settings.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, rootObject);
+            }
         }
 
         private void ConnectToArduino()
@@ -188,6 +215,22 @@ namespace Streamdeck
             }
         }
 
+        // Software
+
+        private void changePanel(Panel panel)
+        {
+            // Hide all panels with "cofigurePanel" in the name
+            foreach (Control control in this.Controls)
+            {
+                if (control is Panel && control.Name.Contains("configurePanel"))
+                {
+                    control.Visible = false;
+                }
+            }
+            panel.Visible = true;
+            panel.Location = new Point(3, 465);
+        }
+
         private void LaunchProgram(string programName)
         {
             MessageBox.Show(programName);
@@ -244,7 +287,8 @@ namespace Streamdeck
 
         private void applyButton_Click(object sender, EventArgs e)
         {
-            SaveOptions();
+            string currentKey = "0"; // This would dynamically change based on the clicked key
+            panelManager.SaveOptions(reusablePanel, currentKey);
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -253,24 +297,6 @@ namespace Streamdeck
             if (serialPort != null && serialPort.IsOpen)
             {
                 serialPort.Close();
-            }
-        }
-
-        private void browseButton1_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSound1.Text = fdlg.FileName;
-            }
-        }
-
-        private void browseProgramButton1_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxA.Text = fdlg.FileName;
             }
         }
 
@@ -577,26 +603,61 @@ namespace Streamdeck
                 picBox.Image = drawBorder(picBox);
                 clickedKey = picBox;
             }
+            string key = picBox.Tag.ToString();
+
+            // Load the appropriate panel for the clicked key
+            panelManager.PopulatePanel(reusablePanel, key);
         }
 
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Ensure the ListView has focus when clicked
+            listView1.Focus();
+
             // Check if any item is selected
             if (listView1.SelectedItems.Count > 0)
             {
+                // First, reset all items' background colors
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    item.BackColor = Color.FromArgb(40, 40, 40); // Default color for unselected items
+                }
+
                 // Get the selected item (assuming single select, so the first selected item)
                 ListViewItem selectedItem = listView1.SelectedItems[0];
 
-                selectedItem.BackColor = Color.Blue;
-
-                
+                // Change the background color of the selected item
+                selectedItem.BackColor = Color.FromArgb(23, 100, 186);
             }
             else
             {
-                foreach(ListViewItem item in listView1.Items)
+                // Reset all item backgrounds if no item is selected
+                foreach (ListViewItem item in listView1.Items)
                 {
                     item.BackColor = Color.FromArgb(40, 40, 40);
                 }
+            }
+        }
+
+        private void ListView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Set the cursor to the hand cursor if it's within the bounds of the ListView
+            if (listView1.ClientRectangle.Contains(e.Location))
+            {
+                Cursor.Current = Cursors.Hand;
+            }
+            else
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void ListView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            ListViewItem item = listView1.HitTest(e.Location).Item;
+            if (item != null)
+            {
+                item.Selected = true;
             }
         }
 
@@ -655,6 +716,20 @@ namespace Streamdeck
             return temp;
         }
 
+        private void textBox2_MouseClick(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            OpenFileDialog fdlg = new OpenFileDialog();
+            if (fdlg.ShowDialog() == DialogResult.OK)
+            {
+                textBox.Text = fdlg.FileName;
+            }
+        }
+
+        private void textBox2_MouseMove(object sender, MouseEventArgs e)
+        {
+            Cursor.Current = Cursors.Default;
+        }
     }
 
 }
