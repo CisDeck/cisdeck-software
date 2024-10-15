@@ -127,9 +127,6 @@
   <data name="C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\C.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CisDeck - Logo _ No-Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CisDeck - Logo _ No-Background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CisDeck Black on transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CisDeck Black on transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -156,6 +153,9 @@
   </data>
   <data name="loading-circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\loading-circle.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo_nobg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_nobg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="numpad_4x4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\numpad_4x4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

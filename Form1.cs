@@ -14,6 +14,7 @@ using System.Windows.Forms.VisualStyles;
 using System.Drawing.Imaging;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace Streamdeck
 {
@@ -30,9 +31,10 @@ namespace Streamdeck
         private Dictionary<PictureBox, Image> brightenedImages = new Dictionary<PictureBox, Image>();
         private Dictionary<PictureBox, Image> borderImages = new Dictionary<PictureBox, Image>();
         private Dictionary<PictureBox, Image> borderBrightenedImages = new Dictionary<PictureBox, Image>();
-        private PictureBox clickedKey;
+        private PictureBox chosenKey;
         private string chosenFunction;
         private PanelManager panelManager = new PanelManager();
+        private bool applyButtonActivated = false;
 
         public Form1()
         {
@@ -54,8 +56,10 @@ namespace Streamdeck
             }
             listView1.Focus();
             listView1.FullRowSelect = true;
-            changePanel(configurePanelDefault);
-            panelManager.PopulatePanel(reusablePanel, "0");
+            chosenFunction = "unknown";
+            panelManager.PopulatePanel(reusablePanel, "0", chosenFunction);
+            chosenKey = numpad_0;
+            applyButton.BackColor = Color.Silver;
         }
 
         private void LoadOptions()
@@ -132,15 +136,24 @@ namespace Streamdeck
         {
             string port = FindArduinoPort();
             Debug.WriteLine("Port: " + port);
-            if (textBoxPort != null && textBoxPort.Text != "")
-            {
-                port = textBoxPort.Text;
-            }
+
             try
             {
+                if (serialPort != null && serialPort.IsOpen)
+                {
+                    serialPort.Close(); // Close the port if it's already open
+                }
+
                 serialPort = new SerialPort(port, 9600);
                 serialPort.Open();
                 connected = true;
+
+                // Stop the previous thread if it's running
+                if (serialThread != null && serialThread.IsAlive)
+                {
+                    connected = false; // Ensure the previous thread exits
+                    serialThread.Join(); // Wait for the thread to finish
+                }
 
                 // Start a new thread for handling serial communication
                 serialThread = new Thread(SerialPortReadLoop);
@@ -151,14 +164,12 @@ namespace Streamdeck
             }
             catch (Exception ex)
             {
-                try
+                if (serialPort != null && serialPort.IsOpen)
                 {
                     serialPort.Close();
                 }
-                catch
-                {
-                    Debug.WriteLine(ex);
-                }
+
+                Debug.WriteLine("Error: " + ex.Message);
                 connectedLabel.Text = "Unconnected";
                 connectedLabel.ForeColor = System.Drawing.Color.Red;
             }
@@ -178,69 +189,52 @@ namespace Streamdeck
                 }
                 catch (Exception ex)
                 {
-                    // Handle exceptions like port closure or read errors
                     Console.WriteLine("Error: " + ex.Message);
+                    connected = false; // Stop the loop if there's an error
                 }
             }
         }
 
         private void ProcessSerialInput(string input)
         {
-
             input = input.Trim(); // Remove unnecessary whitespace
-            if (input.Contains("*") || input.Contains("#") || input.Contains("0"))
-            {
-                int index = Array.IndexOf(new string[] { "*", "#", "0" }, input);
-                if (index >= 0)
-                {
-                    ScriptHandler.Execute(Specials[index]);
-                }
-            }
-            else if (input.Contains("#"))
-            {
-                Console.WriteLine("#");
-            }
-            else if (input == "A" || input == "B" || input == "C" || input == "D")
-            {
-                int index = Array.IndexOf(new string[] { "A", "B", "C", "D" }, input);
-                if (index >= 0)
-                {
-                    LaunchProgram(Programs[index]);
-                }
-            }
-            else if ((int.Parse(input) - 1) >= 0 && (int.Parse(input) - 1) < 9)
-            {
-                int index = int.Parse(input) - 1;
-                PlaySound(Sounds[index]);
-            }
+            findCommand(input);
         }
 
         // Software
 
-        private void changePanel(Panel panel)
+        private void findCommand(string key)
         {
-            // Hide all panels with "cofigurePanel" in the name
-            foreach (Control control in this.Controls)
+            string chosenFunction = panelManager.GetFunction(key);
+            switch (chosenFunction)
             {
-                if (control is Panel && control.Name.Contains("configurePanel"))
-                {
-                    control.Visible = false;
-                }
+                case "playsound":
+                    PlaySound(panelManager.GetValue(key, chosenFunction));
+                    break;
+                case "launch":
+                    LaunchProgram(panelManager.GetValue(key, chosenFunction));
+                    break;
+                case "openwebsite":
+                    openWebsite(panelManager.GetValue(key, chosenFunction));
+                    break;
             }
-            panel.Visible = true;
-            panel.Location = new Point(3, 465);
+            
         }
 
         private void LaunchProgram(string programName)
         {
-            MessageBox.Show(programName);
             try
             {
-                var app = System.Diagnostics.Process.Start(programName);
+                var app = Process.Start(programName);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error launching program: " + ex.Message);
+                new ToastContentBuilder()
+                    .AddArgument("action", "viewConversation")
+                    .AddArgument("conversationId", 9813)
+                    .AddText("Error: Program couldn't be launched.")
+                    .AddText("Program: " + programName)
+                    .Show();
             }
         }
 
@@ -263,12 +257,43 @@ namespace Streamdeck
                 }
                 else
                 {
-                    MessageBox.Show("Sound file not found: " + filePath);
+                    new ToastContentBuilder()
+                    .AddArgument("action", "viewConversation")
+                    .AddArgument("conversationId", 9813)
+                    .AddText("Error: Sound File not found.")
+                    .AddText("Path: " + filePath)
+                    .Show();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error playing sound: " + ex.Message);
+                new ToastContentBuilder()
+                    .AddArgument("action", "viewConversation")
+                    .AddArgument("conversationId", 9813)
+                    .AddText("Error: Sound couldn't be played.")
+                    .Show();
+            }
+        }
+
+        private void openWebsite(string url)
+        {
+            try
+            {
+                ProcessStartInfo psInfo = new ProcessStartInfo
+                {
+                    FileName = FormatURL(url, true),
+                    UseShellExecute = true
+                };
+                Process.Start(psInfo);
+            }
+            catch (Exception ex)
+            {
+                new ToastContentBuilder()
+                    .AddArgument("action", "viewConversation")
+                    .AddArgument("conversationId", 9813)
+                    .AddText("Error: Website couldn't be opened.")
+                    .AddText("URL: " + url)
+                    .Show();
             }
         }
 
@@ -285,11 +310,46 @@ namespace Streamdeck
             return port;
         }
 
+        public static string FormatURL(string Url, bool IncludeHttp)
+        {
+
+            Url = Url.ToLower();
+
+            switch (IncludeHttp)
+            {
+                case true:
+                    if (!(Url.StartsWith("http://") || Url.StartsWith("https://")))
+                        Url = "http://" + Url;
+                    break;
+                case false:
+                    if (Url.StartsWith("http://"))
+                        Url = Url.Remove(0, "http://".Length);
+                    if (Url.StartsWith("https://"))
+                        Url = Url.Remove(0, "https://".Length);
+                    break;
+            }
+
+            return Url;
+
+        }
+
         private void applyButton_Click(object sender, EventArgs e)
         {
-            string currentKey = "0"; // This would dynamically change based on the clicked key
-            panelManager.SaveOptions(reusablePanel, currentKey);
+            if (applyButtonActivated)
+            {
+                string currentKey = chosenKey.Tag.ToString(); // This would dynamically change based on the clicked key
+                panelManager.SaveOptions(reusablePanel, currentKey, chosenFunction);
+            }
         }
+
+        private void applyButton_MouseMove(object sender, EventArgs e)
+        {
+            if(applyButtonActivated)
+                Cursor.Current = Cursors.Hand;
+            else
+                Cursor.Current = Cursors.Default;
+        }
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -574,7 +634,7 @@ namespace Streamdeck
             PictureBox picBox = sender as PictureBox;
             if (picBox != null)
             {
-                if (clickedKey == picBox)
+                if (chosenKey == picBox)
                     picBox.Image = borderBrightenedImages[picBox];
                 else
                     picBox.Image = brightenedImages[picBox];
@@ -586,7 +646,7 @@ namespace Streamdeck
             PictureBox picBox = sender as PictureBox;
             if (picBox != null)
             {
-                if (clickedKey == picBox)
+                if (chosenKey == picBox)
                     picBox.Image = borderImages[picBox];
                 else
                     picBox.Image = originalImages[picBox];
@@ -598,15 +658,22 @@ namespace Streamdeck
             PictureBox picBox = sender as PictureBox;
             if (picBox != null)
             {
-                if (clickedKey != null)
-                    clickedKey.Image = originalImages[clickedKey];
+                if (chosenKey != null)
+                    chosenKey.Image = originalImages[chosenKey];
                 picBox.Image = drawBorder(picBox);
-                clickedKey = picBox;
+                chosenKey = picBox;
+                selectedKeyImage.Image = originalImages[chosenKey];
+                if(!applyButtonActivated && chosenFunction != "unknown")
+                {
+                    applyButton.BackColor = Color.Gray;
+                    applyButton.FlatStyle = FlatStyle.Standard;
+                    applyButtonActivated = true;
+                }
             }
             string key = picBox.Tag.ToString();
 
             // Load the appropriate panel for the clicked key
-            panelManager.PopulatePanel(reusablePanel, key);
+            panelManager.PopulatePanel(reusablePanel, key, chosenFunction);
         }
 
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -628,6 +695,15 @@ namespace Streamdeck
 
                 // Change the background color of the selected item
                 selectedItem.BackColor = Color.FromArgb(23, 100, 186);
+                chosenFunction = selectedItem.Text.Replace(" ", "").ToLower();
+                labelNameA.Text = selectedItem.Text;
+                panelManager.PopulatePanel(reusablePanel, chosenKey.Tag.ToString(), chosenFunction);
+                if (!applyButtonActivated && chosenKey != null)
+                {
+                    applyButton.BackColor = Color.Gray;
+                    applyButton.FlatStyle = FlatStyle.Standard;
+                    applyButtonActivated = true;
+                }
             }
             else
             {
@@ -718,11 +794,14 @@ namespace Streamdeck
 
         private void textBox2_MouseClick(object sender, EventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
+            if (chosenFunction != "openwebsite")
             {
-                textBox.Text = fdlg.FileName;
+                TextBox textBox = sender as TextBox;
+                OpenFileDialog fdlg = new OpenFileDialog();
+                if (fdlg.ShowDialog() == DialogResult.OK)
+                {
+                    textBox.Text = fdlg.FileName;
+                }
             }
         }
 

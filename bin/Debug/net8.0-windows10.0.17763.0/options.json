@@ -1,0 +1,150 @@
+{
+  "panels": [
+    {
+      "key0": {
+        "name": "0",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key1": {
+        "name": "1",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key2": {
+        "name": "2",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key3": {
+        "name": "3",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key4": {
+        "name": "4",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key5": {
+        "name": "5",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key6": {
+        "name": "6",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key7": {
+        "name": "7",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key8": {
+        "name": "8",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "key9": {
+        "name": "9",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyA": {
+        "name": "A",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyB": {
+        "name": "B",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyC": {
+        "name": "C",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyD": {
+        "name": "D",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keystar": {
+        "name": "star",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      },
+      "keyhashtag": {
+        "name": "hashtag",
+        "chosenFunction": "",
+        "functions": {
+          "playSound": "",
+          "launch": "",
+          "openWebsite": ""
+        }
+      }
+    }
+  ]
+}

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            ListViewGroup listViewGroup1 = new ListViewGroup("System", HorizontalAlignment.Left);
+            ListViewGroup listViewGroup2 = new ListViewGroup("Sound", HorizontalAlignment.Left);
             ListViewItem listViewItem1 = new ListViewItem(new string[] { "Play Sound" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
             ListViewItem listViewItem2 = new ListViewItem(new string[] { "Launch" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
             ListViewItem listViewItem3 = new ListViewItem(new string[] { "Open Website" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
@@ -36,18 +38,16 @@
             pictureBox1 = new PictureBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
             configurePanelDefault = new Panel();
-            label2 = new Label();
             reusablePanel = new Panel();
+            selectedKeyImage = new PictureBox();
             textBoxConfig1AKey = new TextBox();
+            connectedLabel = new Label();
             applyButton = new Button();
             label4 = new Label();
             textBoxNameA = new TextBox();
             label3 = new Label();
             labelNameA = new Label();
-            panel3 = new Panel();
-            textBoxPort = new TextBox();
-            connectButton = new Button();
-            connectedLabel = new Label();
+            label2 = new Label();
             contextMenuStrip2 = new ContextMenuStrip(components);
             timer1 = new System.Windows.Forms.Timer(components);
             panel5 = new Panel();
@@ -73,7 +73,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             configurePanelDefault.SuspendLayout();
             reusablePanel.SuspendLayout();
-            panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)selectedKeyImage).BeginInit();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numpad_4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numpad_5).BeginInit();
@@ -113,35 +113,37 @@
             // configurePanelDefault
             // 
             configurePanelDefault.BackColor = Color.FromArgb(35, 35, 35);
+            configurePanelDefault.Controls.Add(reusablePanel);
             configurePanelDefault.Controls.Add(label2);
             configurePanelDefault.Location = new Point(3, 465);
             configurePanelDefault.Name = "configurePanelDefault";
             configurePanelDefault.Size = new Size(631, 275);
             configurePanelDefault.TabIndex = 1;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.ForeColor = Color.DimGray;
-            label2.Location = new Point(209, 124);
-            label2.Name = "label2";
-            label2.Size = new Size(190, 15);
-            label2.TabIndex = 0;
-            label2.Text = "Select a key to configure its action.";
-            // 
             // reusablePanel
             // 
             reusablePanel.BackColor = Color.FromArgb(35, 35, 35);
+            reusablePanel.Controls.Add(selectedKeyImage);
             reusablePanel.Controls.Add(textBoxConfig1AKey);
+            reusablePanel.Controls.Add(connectedLabel);
             reusablePanel.Controls.Add(applyButton);
             reusablePanel.Controls.Add(label4);
             reusablePanel.Controls.Add(textBoxNameA);
             reusablePanel.Controls.Add(label3);
             reusablePanel.Controls.Add(labelNameA);
-            reusablePanel.Location = new Point(946, 45);
+            reusablePanel.Location = new Point(3, 3);
             reusablePanel.Name = "reusablePanel";
             reusablePanel.Size = new Size(631, 275);
             reusablePanel.TabIndex = 2;
+            // 
+            // selectedKeyImage
+            // 
+            selectedKeyImage.Location = new Point(19, 75);
+            selectedKeyImage.Name = "selectedKeyImage";
+            selectedKeyImage.Size = new Size(48, 50);
+            selectedKeyImage.SizeMode = PictureBoxSizeMode.Zoom;
+            selectedKeyImage.TabIndex = 5;
+            selectedKeyImage.TabStop = false;
             // 
             // textBoxConfig1AKey
             // 
@@ -157,13 +159,25 @@
             textBoxConfig1AKey.MouseClick += textBox2_MouseClick;
             textBoxConfig1AKey.MouseMove += textBox2_MouseMove;
             // 
+            // connectedLabel
+            // 
+            connectedLabel.AutoSize = true;
+            connectedLabel.ForeColor = Color.Red;
+            connectedLabel.Location = new Point(19, 241);
+            connectedLabel.Name = "connectedLabel";
+            connectedLabel.Size = new Size(78, 15);
+            connectedLabel.TabIndex = 3;
+            connectedLabel.Text = "Unconnected";
+            // 
             // applyButton
             // 
             applyButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             applyButton.BackColor = Color.Gray;
-            applyButton.FlatAppearance.BorderColor = Color.Black;
-            applyButton.FlatAppearance.MouseDownBackColor = Color.Black;
-            applyButton.FlatAppearance.MouseOverBackColor = Color.Black;
+            applyButton.FlatAppearance.BorderColor = Color.White;
+            applyButton.FlatAppearance.BorderSize = 3;
+            applyButton.FlatAppearance.MouseDownBackColor = Color.Silver;
+            applyButton.FlatAppearance.MouseOverBackColor = Color.Silver;
+            applyButton.FlatStyle = FlatStyle.Flat;
             applyButton.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             applyButton.ForeColor = Color.White;
             applyButton.Location = new Point(542, 223);
@@ -173,6 +187,7 @@
             applyButton.Text = "Apply";
             applyButton.UseVisualStyleBackColor = false;
             applyButton.Click += applyButton_Click;
+            applyButton.MouseMove += applyButton_MouseMove;
             // 
             // label4
             // 
@@ -181,9 +196,9 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(132, 109);
             label4.Name = "label4";
-            label4.Size = new Size(50, 17);
+            label4.Size = new Size(39, 17);
             label4.TabIndex = 3;
-            label4.Text = "Sound:";
+            label4.Text = "Path:";
             // 
             // textBoxNameA
             // 
@@ -214,56 +229,19 @@
             labelNameA.ForeColor = Color.White;
             labelNameA.Location = new Point(19, 16);
             labelNameA.Name = "labelNameA";
-            labelNameA.Size = new Size(204, 26);
+            labelNameA.Size = new Size(116, 26);
             labelNameA.TabIndex = 0;
-            labelNameA.Text = "A - Key - Play Sound";
+            labelNameA.Text = "Play Sound";
             // 
-            // panel3
+            // label2
             // 
-            panel3.Controls.Add(textBoxPort);
-            panel3.Controls.Add(connectButton);
-            panel3.Controls.Add(connectedLabel);
-            panel3.Location = new Point(1071, 666);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(387, 273);
-            panel3.TabIndex = 4;
-            // 
-            // textBoxPort
-            // 
-            textBoxPort.Location = new Point(3, 228);
-            textBoxPort.Multiline = true;
-            textBoxPort.Name = "textBoxPort";
-            textBoxPort.PlaceholderText = "Serial Port";
-            textBoxPort.Size = new Size(86, 38);
-            textBoxPort.TabIndex = 5;
-            textBoxPort.TextAlign = HorizontalAlignment.Center;
-            // 
-            // connectButton
-            // 
-            connectButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            connectButton.BackColor = Color.Gray;
-            connectButton.FlatAppearance.BorderColor = Color.Black;
-            connectButton.FlatAppearance.MouseDownBackColor = Color.Black;
-            connectButton.FlatAppearance.MouseOverBackColor = Color.Black;
-            connectButton.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            connectButton.ForeColor = Color.White;
-            connectButton.Location = new Point(3, 166);
-            connectButton.Name = "connectButton";
-            connectButton.Size = new Size(86, 49);
-            connectButton.TabIndex = 4;
-            connectButton.Text = "Connect";
-            connectButton.UseVisualStyleBackColor = false;
-            connectButton.Click += connectButton_Click;
-            // 
-            // connectedLabel
-            // 
-            connectedLabel.AutoSize = true;
-            connectedLabel.ForeColor = Color.Red;
-            connectedLabel.Location = new Point(7, 146);
-            connectedLabel.Name = "connectedLabel";
-            connectedLabel.Size = new Size(78, 15);
-            connectedLabel.TabIndex = 3;
-            connectedLabel.Text = "Unconnected";
+            label2.AutoSize = true;
+            label2.ForeColor = Color.DimGray;
+            label2.Location = new Point(209, 124);
+            label2.Name = "label2";
+            label2.Size = new Size(190, 15);
+            label2.TabIndex = 0;
+            label2.Text = "Select a key to configure its action.";
             // 
             // contextMenuStrip2
             // 
@@ -277,7 +255,6 @@
             // 
             // panel5
             // 
-            panel5.Controls.Add(reusablePanel);
             panel5.Controls.Add(listView1);
             panel5.Controls.Add(numpad_4);
             panel5.Controls.Add(numpad_5);
@@ -295,7 +272,6 @@
             panel5.Controls.Add(numpad_0);
             panel5.Controls.Add(numpad_D);
             panel5.Controls.Add(numpad_1);
-            panel5.Controls.Add(panel3);
             panel5.Controls.Add(configurePanelDefault);
             panel5.Controls.Add(pictureBox1);
             panel5.Location = new Point(12, 12);
@@ -310,11 +286,19 @@
             listView1.BackColor = Color.FromArgb(24, 24, 24);
             listView1.BorderStyle = BorderStyle.FixedSingle;
             listView1.FullRowSelect = true;
+            listViewGroup1.Header = "System";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "Sound";
+            listViewGroup2.Name = "listViewGroup2";
+            listView1.Groups.AddRange(new ListViewGroup[] { listViewGroup1, listViewGroup2 });
             listView1.HeaderStyle = ColumnHeaderStyle.None;
+            listViewItem1.Group = listViewGroup2;
             listViewItem1.StateImageIndex = 0;
             listViewItem2.Checked = true;
+            listViewItem2.Group = listViewGroup1;
             listViewItem2.StateImageIndex = 1;
             listViewItem3.Checked = true;
+            listViewItem3.Group = listViewGroup1;
             listViewItem3.StateImageIndex = 2;
             listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3 });
             listView1.Location = new Point(334, 3);
@@ -586,7 +570,7 @@
             // Form1
             // 
             BackColor = Color.FromArgb(24, 24, 24);
-            ClientSize = new Size(1866, 966);
+            ClientSize = new Size(657, 766);
             Controls.Add(panel5);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -599,8 +583,7 @@
             configurePanelDefault.PerformLayout();
             reusablePanel.ResumeLayout(false);
             reusablePanel.PerformLayout();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)selectedKeyImage).EndInit();
             panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numpad_4).EndInit();
             ((System.ComponentModel.ISupportInitialize)numpad_5).EndInit();
@@ -691,9 +674,6 @@
         private Label labelNameA;
         private ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.Timer timer1;
-        private Panel panel3;
-        private TextBox textBoxPort;
-        private Button connectButton;
         private Label connectedLabel;
         private Button applyButton;
         private Panel panel5;
@@ -722,5 +702,6 @@
         private TextBox textBoxNameA;
         private Label label3;
         private TextBox textBoxConfig1AKey;
+        private PictureBox selectedKeyImage;
     }
 }

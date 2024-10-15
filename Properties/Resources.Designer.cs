@@ -203,16 +203,6 @@ namespace Streamdeck.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CisDeck___Logo___No_Background {
-            get {
-                object obj = ResourceManager.GetObject("CisDeck - Logo _ No-Background", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap CisDeck_Black_on_transparent {
             get {
                 object obj = ResourceManager.GetObject("CisDeck Black on transparent", resourceCulture);
@@ -296,6 +286,16 @@ namespace Streamdeck.Properties {
         internal static System.Drawing.Bitmap loading_circle {
             get {
                 object obj = ResourceManager.GetObject("loading-circle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_nobg {
+            get {
+                object obj = ResourceManager.GetObject("logo_nobg", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

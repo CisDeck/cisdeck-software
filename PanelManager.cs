@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Streamdeck
 {
@@ -46,7 +48,7 @@ namespace Streamdeck
         }
 
         // Populate the panel with the key's data when a button is clicked
-        public void PopulatePanel(Panel panel, string key)
+        public void PopulatePanel(Panel panel, string key, string function)
         {
             if (keyMappings.TryGetValue(key, out var keyData))
             {
@@ -56,11 +58,22 @@ namespace Streamdeck
                     {
                         if (textBox.Name.Contains("textBoxName"))
                         {
-                            textBox.Text = keyData.name;
+                            textBox.Text = keyData.name; // Load the key's name from JSON
                         }
                         else if (textBox.Name.Contains("textBoxConfig"))
                         {
-                            textBox.Text = keyData.functions.playsound; // Example, adjust for different functions
+                            switch (function)
+                            {
+                                case "playsound":
+                                    textBox.Text = keyData.functions.playsound;
+                                    break;
+                                case "launch":
+                                    textBox.Text = keyData.functions.launch;
+                                    break;
+                                case "openwebsite":
+                                    textBox.Text = keyData.functions.openWebsite;
+                                    break;
+                            }
                         }
                     }
                 }
@@ -68,7 +81,7 @@ namespace Streamdeck
         }
 
         // Save the options from the panel back into the key's configuration
-        public void SaveOptions(Panel panel, string key)
+        public void SaveOptions(Panel panel, string key, string function)
         {
             if (keyMappings.TryGetValue(key, out var keyData))
             {
@@ -78,23 +91,69 @@ namespace Streamdeck
                     {
                         if (textBox.Name.Contains("textBoxName"))
                         {
-                            keyData.name = textBox.Text;
+                            keyData.name = textBox.Text; // Save the updated name from UI
                         }
                         else if (textBox.Name.Contains("textBoxConfig"))
                         {
-                            keyData.functions.playsound = textBox.Text; // Adjust for different functions
+                            switch(function)
+                            {
+                                case "playsound":
+                                    keyData.functions.playsound = textBox.Text;
+                                    break;
+                                case "launch":
+                                    keyData.functions.launch = textBox.Text;
+                                    break;
+                                case "openwebsite":
+                                    keyData.functions.openWebsite = textBox.Text;
+                                    break;
+                            }
                         }
                     }
                 }
+                keyData.chosenFunction = function;
+
+                // Save the updated data back to the JSON file
                 SaveConfig();
             }
         }
 
         // Save the updated configurations back to the JSON file
-        private void SaveConfig()
+        public void SaveConfig()
         {
             string json = JsonConvert.SerializeObject(rootObject, Formatting.Indented);
-            File.WriteAllText("options.json", json);
+            File.WriteAllText("options.json", json); // Write the updated JSON back to the file
         }
+
+        public string GetValue(string key, string function)
+        {
+            string value = "";
+            if (keyMappings.TryGetValue(key, out var keyData))
+            {
+                switch(function)
+                {
+                    case "playsound":
+                        value = keyData.functions.playsound;
+                        break;
+                    case "launch":
+                        value = keyData.functions.launch;
+                        break;
+                    case "openwebsite":
+                        value = keyData.functions.openWebsite;
+                        break;
+                }
+            }
+            return value;
+        }
+
+        public string GetFunction(string key)
+        {
+            string function = "";
+            if (keyMappings.TryGetValue(key, out var keyData))
+            {
+                function = keyData.chosenFunction;
+            }
+            return function;
+        }
+
     }
 }
