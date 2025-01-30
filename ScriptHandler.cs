@@ -61,7 +61,7 @@ namespace Streamdeck
                 }
                 else if (command.StartsWith("keystroke["))
                 {
-                    SendKeystroke(command);
+                    //SendKeystroke(command);
                 }
                 else if (command.StartsWith("openURL["))
                 {
@@ -136,11 +136,7 @@ namespace Streamdeck
             }
         }
 
-        private static void SendKeystroke(string command)
-        {
-            string keyCombination = command.Substring(10, command.Length - 11);
-            SendKeys.Send(keyCombination);
-        }
+        
 
         private static void OpenURL(string command)
         {

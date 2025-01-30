@@ -20,6 +20,8 @@ namespace Streamdeck
         public string playsound { get; set; }
         public string launch { get; set; }
         public string openWebsite { get; set; }
+
+        public string triggerhotkey { get; set; }
     }
 
 

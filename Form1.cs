@@ -15,6 +15,8 @@ using System.Drawing.Imaging;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Streamdeck
 {
@@ -35,11 +37,12 @@ namespace Streamdeck
         private string chosenFunction;
         private PanelManager panelManager = new PanelManager();
         private bool applyButtonActivated = false;
+        string functionOfChosenKey = "";
+        private HotkeyLogic hotkeyLogic;
 
         public Form1()
         {
             InitializeComponent();
-            LoadOptions();
             ConnectToArduino();
             timeLeftToCheck = 30;
             timer1.Start();
@@ -58,78 +61,8 @@ namespace Streamdeck
             listView1.FullRowSelect = true;
             chosenFunction = "unknown";
             panelManager.PopulatePanel(reusablePanel, "0", chosenFunction);
-            chosenKey = numpad_0;
             applyButton.BackColor = Color.Silver;
-        }
-
-        private void LoadOptions()
-        {
-            // Load options from the file, or create new if not found
-            if (File.Exists("options.txt"))
-            {
-                string[] lines = File.ReadAllLines("options.txt");
-                for (int i = 0; i < 4; i++)
-                {
-                    Programs[i] = lines[i];
-                }
-                for (int i = 0; i < 8; i++)
-                {
-                    Sounds[i] = lines[i + 4];
-                }
-                for (int i = 0; i < 3; i++)
-                {
-                    Specials[i] = lines[i + 12];
-                }
-                UpdateUI();
-            }
-            else
-            {
-                File.WriteAllLines("options.txt", new string[15]); // Create default file with empty lines
-            }
-        }
-
-        private void UpdateUI()
-        {
-
-        }
-
-        private void SaveOptions(Panel panel)
-        {
-
-            string json = File.ReadAllText("options.json");
-
-            //Deserialize from file to object:
-            var rootObject = new RootObject();
-            JsonConvert.PopulateObject(json, rootObject);
-
-            //Change Value
-            string name = "";
-            string function = "";
-            foreach (Control control in panel.Controls)
-            {
-                if (control is TextBox)
-                {
-                    TextBox textBox = control as TextBox;
-                    if (textBox.Name.Contains("textBoxName"))
-                    {
-                        name = textBox.Text;
-                    }
-                    else if (textBox.Name.Contains("textBoxConfig"))
-                    {
-                        function = textBox.Text;
-                    }
-                }
-            }
-            rootObject.panels[0].key1.name = name;
-            //rootObject.panels[0].key1.functions = new Functions("", "", "");
-
-
-            // serialize JSON directly to a file again
-            using (StreamWriter file = File.CreateText(@"PATH TO settings.json"))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, rootObject);
-            }
+            hotkeyLogic = new HotkeyLogic();
         }
 
         private void ConnectToArduino()
@@ -142,9 +75,11 @@ namespace Streamdeck
                 if (serialPort != null && serialPort.IsOpen)
                 {
                     serialPort.Close(); // Close the port if it's already open
+                    serialPort.Dispose();
                 }
 
                 serialPort = new SerialPort(port, 9600);
+                serialPort.ReadTimeout = 1800000;
                 serialPort.Open();
                 connected = true;
 
@@ -167,6 +102,7 @@ namespace Streamdeck
                 if (serialPort != null && serialPort.IsOpen)
                 {
                     serialPort.Close();
+                    serialPort.Dispose();
                 }
 
                 Debug.WriteLine("Error: " + ex.Message);
@@ -189,7 +125,7 @@ namespace Streamdeck
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error: " + ex.Message);
+                    Debug.WriteLine("Error: " + ex.Message);
                     connected = false; // Stop the loop if there's an error
                 }
             }
@@ -198,6 +134,7 @@ namespace Streamdeck
         private void ProcessSerialInput(string input)
         {
             input = input.Trim(); // Remove unnecessary whitespace
+            Console.WriteLine(input);
             findCommand(input);
         }
 
@@ -216,6 +153,9 @@ namespace Streamdeck
                     break;
                 case "openwebsite":
                     openWebsite(panelManager.GetValue(key, chosenFunction));
+                    break;
+                case "triggerhotkey":
+                    triggerHotkey(panelManager.GetValue(key, chosenFunction));
                     break;
             }
             
@@ -297,6 +237,66 @@ namespace Streamdeck
             }
         }
 
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+        public static void PressKey(Keys key, bool up)
+        {
+            const int KEYEVENTF_EXTENDEDKEY = 0x1;
+            const int KEYEVENTF_KEYUP = 0x2;
+            if (up)
+            {
+                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (UIntPtr)0);
+            }
+            else
+            {
+                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY, (UIntPtr)0);
+            }
+        }
+
+        private void triggerHotkey(string hotkey)
+        {
+            var modifierMap = new Dictionary<string, string>
+            {
+                { "SHIFT", "+" },
+                { "CTRL", "^" },
+                { "ALT", "%" }
+            };
+
+            // Split the key combination into parts
+            var parts = hotkey.Split(new[] { '+' }, StringSplitOptions.RemoveEmptyEntries)
+                                        .Select(p => p.Trim().ToUpper()).ToList();
+
+            // Build the SendKeys-compatible string
+            StringBuilder sendKeysString = new StringBuilder();
+
+            foreach (var part in parts)
+            {
+                if (modifierMap.ContainsKey(part))
+                {
+                    // Append the modifier symbol
+                    sendKeysString.Append(modifierMap[part]);
+                }
+                else
+                {
+                    // Add the actual key, wrap special keys in braces
+                    if (part.Length > 1 || char.IsDigit(part[0]))
+                    {
+                        sendKeysString.Append($"{{{part}}}");
+                    }
+                    else
+                    {
+                        sendKeysString.Append(part);
+                    }
+                }
+            }
+            String sks = sendKeysString.ToString().ToLower();
+
+            // Send the keystroke
+            SendKeys.Send(sks);
+            Debug.WriteLine(sks);
+        }
+
+        
         private string FindArduinoPort()
         {
             string port = "";
@@ -669,6 +669,14 @@ namespace Streamdeck
                     applyButton.FlatStyle = FlatStyle.Standard;
                     applyButtonActivated = true;
                 }
+                if(panelManager.GetFunction(chosenKey.Tag.ToString()) != "")
+                {
+                    functionOfChosenKey = panelManager.GetFunction(chosenKey.Tag.ToString());
+                    ListView1_SelectedIndexChanged(null, null);
+                } else
+                {
+                    functionOfChosenKey = "";
+                }
             }
             string key = picBox.Tag.ToString();
 
@@ -691,7 +699,21 @@ namespace Streamdeck
                 }
 
                 // Get the selected item (assuming single select, so the first selected item)
-                ListViewItem selectedItem = listView1.SelectedItems[0];
+                ListViewItem selectedItem;
+                if (functionOfChosenKey != "" && sender == null && e == null)
+                {
+                    selectedItem = listView1.Items
+                        .Cast<ListViewItem>()
+                        .FirstOrDefault(item => item.Tag?.ToString() == functionOfChosenKey);
+
+                    if (selectedItem == null)
+                    {
+                        return;
+                    }
+                } else
+                {
+                    selectedItem = listView1.SelectedItems[0];
+                }
 
                 // Change the background color of the selected item
                 selectedItem.BackColor = Color.FromArgb(23, 100, 186);
@@ -703,6 +725,15 @@ namespace Streamdeck
                     applyButton.BackColor = Color.Gray;
                     applyButton.FlatStyle = FlatStyle.Standard;
                     applyButtonActivated = true;
+                }
+                if(chosenFunction == "triggerhotkey")
+                {
+                    textBoxConfig.PlaceholderText = "Press a key combination...";
+                    label4.Text = "Key:";
+                } else
+                {
+                    textBoxConfig.PlaceholderText = "";
+                    label4.Text = "Path:";
                 }
             }
             else
@@ -717,7 +748,6 @@ namespace Streamdeck
 
         private void ListView1_MouseMove(object sender, MouseEventArgs e)
         {
-            // Set the cursor to the hand cursor if it's within the bounds of the ListView
             if (listView1.ClientRectangle.Contains(e.Location))
             {
                 Cursor.Current = Cursors.Hand;
@@ -742,11 +772,9 @@ namespace Streamdeck
             Bitmap temp = new Bitmap(image.Width, image.Height);
             using (Graphics g = Graphics.FromImage(temp))
             {
-                // Create a color matrix and set the gamma
                 ImageAttributes attributes = new ImageAttributes();
                 attributes.SetGamma(gammaFactor);
 
-                // Draw the original image with the gamma adjustment
                 g.DrawImage(image, new Rectangle(0, 0, temp.Width, temp.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
             }
             return temp;
@@ -765,6 +793,7 @@ namespace Streamdeck
                     borderBrightenedImages[picBox] = AdjustGamma(borderImages[picBox], 1.5f);
                 }
             }
+            clickNumpad(numpad_0);
         }
 
         private IEnumerable<Control> GetAllControls(Control parent)
@@ -773,7 +802,6 @@ namespace Streamdeck
             {
                 yield return control;
 
-                // Recursively search through all child controls
                 foreach (Control childControl in GetAllControls(control))
                 {
                     yield return childControl;
@@ -794,7 +822,8 @@ namespace Streamdeck
 
         private void textBox2_MouseClick(object sender, EventArgs e)
         {
-            if (chosenFunction != "openwebsite")
+
+            if (chosenFunction != "openwebsite" && chosenFunction != "triggerhotkey")
             {
                 TextBox textBox = sender as TextBox;
                 OpenFileDialog fdlg = new OpenFileDialog();
@@ -802,6 +831,57 @@ namespace Streamdeck
                 {
                     textBox.Text = fdlg.FileName;
                 }
+            }
+            else if (chosenFunction == "triggerhotkey")
+            {
+                TextBox textBox = sender as TextBox;
+                textBox.Clear();
+
+                StringBuilder pressedKeys = new StringBuilder();
+                bool keyCheckInProgress = true;
+
+                this.KeyPreview = true;
+
+                this.KeyDown += (s, keyEventArgs) =>
+                {
+                    string modifiers = "";
+                    if (keyEventArgs.Shift && !pressedKeys.ToString().Contains("Shift"))
+                    {
+                        modifiers += "SHIFT + ";
+                    }
+                    if (keyEventArgs.Control && !pressedKeys.ToString().Contains("Ctrl"))
+                    {
+                        modifiers += "CTRL + ";
+                    }
+                    if (keyEventArgs.Alt && !pressedKeys.ToString().Contains("Alt"))
+                    {
+                        modifiers += "ALT + ";
+                    }
+
+                    // Taste hinzufügen, außer Modifier-Tasten selbst (ShiftKey, ControlKey, Menu)
+                    if (keyEventArgs.KeyCode != Keys.ShiftKey && keyEventArgs.KeyCode != Keys.ControlKey && keyEventArgs.KeyCode != Keys.Menu)
+                    {
+                        pressedKeys.Append(modifiers + keyEventArgs.KeyCode.ToString() + " + ");
+                    }
+                };
+
+                this.KeyUp += (s, keyEventArgs) =>
+                {
+                    if (keyCheckInProgress)
+                    {
+                        if (pressedKeys.Length > 0)
+                        {
+                            pressedKeys.Length -= 3;
+                        }
+
+                        textBox.Text = pressedKeys.ToString();
+                        pressedKeys.Clear();
+                        keyCheckInProgress = false;
+                    }
+
+                    this.KeyDown -= null;
+                    this.KeyUp -= null;
+                };
             }
         }
 

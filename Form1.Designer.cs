@@ -34,17 +34,18 @@
             ListViewItem listViewItem1 = new ListViewItem(new string[] { "Play Sound" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
             ListViewItem listViewItem2 = new ListViewItem(new string[] { "Launch" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
             ListViewItem listViewItem3 = new ListViewItem(new string[] { "Open Website" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
+            ListViewItem listViewItem4 = new ListViewItem(new string[] { "Trigger Hotkey" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             pictureBox1 = new PictureBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
             configurePanelDefault = new Panel();
             reusablePanel = new Panel();
             selectedKeyImage = new PictureBox();
-            textBoxConfig1AKey = new TextBox();
+            textBoxConfig = new TextBox();
             connectedLabel = new Label();
             applyButton = new Button();
             label4 = new Label();
-            textBoxNameA = new TextBox();
+            textBoxName = new TextBox();
             label3 = new Label();
             labelNameA = new Label();
             label2 = new Label();
@@ -124,11 +125,11 @@
             // 
             reusablePanel.BackColor = Color.FromArgb(35, 35, 35);
             reusablePanel.Controls.Add(selectedKeyImage);
-            reusablePanel.Controls.Add(textBoxConfig1AKey);
+            reusablePanel.Controls.Add(textBoxConfig);
             reusablePanel.Controls.Add(connectedLabel);
             reusablePanel.Controls.Add(applyButton);
             reusablePanel.Controls.Add(label4);
-            reusablePanel.Controls.Add(textBoxNameA);
+            reusablePanel.Controls.Add(textBoxName);
             reusablePanel.Controls.Add(label3);
             reusablePanel.Controls.Add(labelNameA);
             reusablePanel.Location = new Point(3, 3);
@@ -145,19 +146,19 @@
             selectedKeyImage.TabIndex = 5;
             selectedKeyImage.TabStop = false;
             // 
-            // textBoxConfig1AKey
+            // textBoxConfig
             // 
-            textBoxConfig1AKey.BackColor = Color.FromArgb(20, 20, 20);
-            textBoxConfig1AKey.BorderStyle = BorderStyle.FixedSingle;
-            textBoxConfig1AKey.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBoxConfig1AKey.ForeColor = Color.White;
-            textBoxConfig1AKey.Location = new Point(186, 109);
-            textBoxConfig1AKey.Name = "textBoxConfig1AKey";
-            textBoxConfig1AKey.Size = new Size(169, 23);
-            textBoxConfig1AKey.TabIndex = 4;
-            textBoxConfig1AKey.Text = "Click here to browse";
-            textBoxConfig1AKey.MouseClick += textBox2_MouseClick;
-            textBoxConfig1AKey.MouseMove += textBox2_MouseMove;
+            textBoxConfig.BackColor = Color.FromArgb(20, 20, 20);
+            textBoxConfig.BorderStyle = BorderStyle.FixedSingle;
+            textBoxConfig.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBoxConfig.ForeColor = Color.White;
+            textBoxConfig.Location = new Point(186, 109);
+            textBoxConfig.Name = "textBoxConfig";
+            textBoxConfig.Size = new Size(169, 23);
+            textBoxConfig.TabIndex = 4;
+            textBoxConfig.Text = "Click here to browse";
+            textBoxConfig.MouseClick += textBox2_MouseClick;
+            textBoxConfig.MouseMove += textBox2_MouseMove;
             // 
             // connectedLabel
             // 
@@ -200,15 +201,15 @@
             label4.TabIndex = 3;
             label4.Text = "Path:";
             // 
-            // textBoxNameA
+            // textBoxName
             // 
-            textBoxNameA.BackColor = Color.FromArgb(20, 20, 20);
-            textBoxNameA.BorderStyle = BorderStyle.FixedSingle;
-            textBoxNameA.ForeColor = Color.White;
-            textBoxNameA.Location = new Point(186, 75);
-            textBoxNameA.Name = "textBoxNameA";
-            textBoxNameA.Size = new Size(169, 23);
-            textBoxNameA.TabIndex = 2;
+            textBoxName.BackColor = Color.FromArgb(20, 20, 20);
+            textBoxName.BorderStyle = BorderStyle.FixedSingle;
+            textBoxName.ForeColor = Color.White;
+            textBoxName.Location = new Point(186, 75);
+            textBoxName.Name = "textBoxName";
+            textBoxName.Size = new Size(169, 23);
+            textBoxName.TabIndex = 2;
             // 
             // label3
             // 
@@ -294,13 +295,19 @@
             listView1.HeaderStyle = ColumnHeaderStyle.None;
             listViewItem1.Group = listViewGroup2;
             listViewItem1.StateImageIndex = 0;
+            listViewItem1.Tag = "playsound";
             listViewItem2.Checked = true;
             listViewItem2.Group = listViewGroup1;
             listViewItem2.StateImageIndex = 1;
+            listViewItem2.Tag = "launch";
             listViewItem3.Checked = true;
             listViewItem3.Group = listViewGroup1;
             listViewItem3.StateImageIndex = 2;
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3 });
+            listViewItem3.Tag = "openwebsite";
+            listViewItem4.Checked = true;
+            listViewItem4.StateImageIndex = 3;
+            listViewItem4.Tag = "triggerhotkey";
+            listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4 });
             listView1.Location = new Point(334, 3);
             listView1.MultiSelect = false;
             listView1.Name = "listView1";
@@ -322,6 +329,7 @@
             imageList.Images.SetKeyName(0, "icons8-sound-50.png");
             imageList.Images.SetKeyName(1, "icon_rocket.png");
             imageList.Images.SetKeyName(2, "icons8-internet-50.png");
+            imageList.Images.SetKeyName(3, "icons8-autohotkey-48.png");
             // 
             // numpad_4
             // 
@@ -699,9 +707,9 @@
         private Label label2;
         private Panel reusablePanel;
         private Label label4;
-        private TextBox textBoxNameA;
+        private TextBox textBoxName;
         private Label label3;
-        private TextBox textBoxConfig1AKey;
+        private TextBox textBoxConfig;
         private PictureBox selectedKeyImage;
     }
 }
