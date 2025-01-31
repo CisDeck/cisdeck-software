@@ -73,6 +73,9 @@ namespace Streamdeck
                                 case "triggerhotkey":
                                     textBox.Text = keyData.functions.triggerhotkey;
                                     break;
+                                case "adjustvolume":
+                                    textBox.Text = keyData.functions.adjustvolume;
+                                    break;
                             }
                         }
                     }
@@ -108,6 +111,9 @@ namespace Streamdeck
                                 case "triggerhotkey":
                                     keyData.functions.triggerhotkey = textBox.Text;
                                     break;
+                                case "adjustvolume":
+                                    keyData.functions.adjustvolume = textBox.Text;
+                                    break;
                             }
                         }
                     }
@@ -121,7 +127,7 @@ namespace Streamdeck
         public void SaveConfig()
         {
             string json = JsonConvert.SerializeObject(rootObject, Formatting.Indented);
-            File.WriteAllText("options.json", json); // Write the updated JSON back to the file
+            File.WriteAllText("options.json", json);
         }
 
         public string GetValue(string key, string function)
@@ -142,6 +148,9 @@ namespace Streamdeck
                         break;
                     case "triggerhotkey":
                         value = keyData.functions.triggerhotkey;
+                        break;
+                    case "adjustvolume":
+                        value = keyData.functions.adjustvolume;
                         break;
                 }
             }

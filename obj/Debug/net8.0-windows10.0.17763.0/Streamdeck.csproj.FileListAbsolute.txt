@@ -42,3 +42,5 @@ C:\Users\Samuele\source\repos\Streamdeck\obj\Debug\net8.0-windows10.0.17763.0\re
 C:\Users\Samuele\source\repos\Streamdeck\obj\Debug\net8.0-windows10.0.17763.0\Streamdeck.pdb
 C:\Users\Samuele\source\repos\Streamdeck\obj\Debug\net8.0-windows10.0.17763.0\Streamdeck.genruntimeconfig.cache
 C:\Users\Samuele\source\repos\Streamdeck\obj\Debug\net8.0-windows10.0.17763.0\ref\Streamdeck.dll
+C:\Users\Samuele\source\repos\Streamdeck\bin\Debug\net8.0-windows10.0.17763.0\AudioSwitcher.AudioApi.dll
+C:\Users\Samuele\source\repos\Streamdeck\bin\Debug\net8.0-windows10.0.17763.0\AudioSwitcher.AudioApi.CoreAudio.dll

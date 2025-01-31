@@ -35,6 +35,7 @@
             ListViewItem listViewItem2 = new ListViewItem(new string[] { "Launch" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
             ListViewItem listViewItem3 = new ListViewItem(new string[] { "Open Website" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
             ListViewItem listViewItem4 = new ListViewItem(new string[] { "Trigger Hotkey" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F));
+            ListViewItem listViewItem5 = new ListViewItem(new string[] { "Adjust Volume" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             pictureBox1 = new PictureBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
@@ -157,8 +158,10 @@
             textBoxConfig.Size = new Size(169, 23);
             textBoxConfig.TabIndex = 4;
             textBoxConfig.Text = "Click here to browse";
-            textBoxConfig.MouseClick += textBox2_MouseClick;
-            textBoxConfig.MouseMove += textBox2_MouseMove;
+            textBoxConfig.MouseClick += textBoxConfig_MouseClick;
+            textBoxConfig.TextChanged += textBoxConfig_TextChanged;
+            textBoxConfig.Leave += textBoxConfig_Leave;
+            textBoxConfig.MouseMove += textBoxConfig_MouseMove;
             // 
             // connectedLabel
             // 
@@ -293,8 +296,9 @@
             listViewGroup2.Name = "listViewGroup2";
             listView1.Groups.AddRange(new ListViewGroup[] { listViewGroup1, listViewGroup2 });
             listView1.HeaderStyle = ColumnHeaderStyle.None;
+            listViewItem1.Checked = true;
             listViewItem1.Group = listViewGroup2;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 4;
             listViewItem1.Tag = "playsound";
             listViewItem2.Checked = true;
             listViewItem2.Group = listViewGroup1;
@@ -307,7 +311,10 @@
             listViewItem4.Checked = true;
             listViewItem4.StateImageIndex = 3;
             listViewItem4.Tag = "triggerhotkey";
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4 });
+            listViewItem5.Checked = true;
+            listViewItem5.StateImageIndex = 4;
+            listViewItem5.Tag = "adjustvolume";
+            listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4, listViewItem5 });
             listView1.Location = new Point(334, 3);
             listView1.MultiSelect = false;
             listView1.Name = "listView1";
@@ -330,6 +337,7 @@
             imageList.Images.SetKeyName(1, "icon_rocket.png");
             imageList.Images.SetKeyName(2, "icons8-internet-50.png");
             imageList.Images.SetKeyName(3, "icons8-autohotkey-48.png");
+            imageList.Images.SetKeyName(4, "icons8-sound-50.png");
             // 
             // numpad_4
             // 

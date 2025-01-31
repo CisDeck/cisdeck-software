@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Text;
 using System.Runtime.InteropServices;
+using AudioSwitcher.AudioApi.CoreAudio;
 
 namespace Streamdeck
 {
@@ -157,8 +158,11 @@ namespace Streamdeck
                 case "triggerhotkey":
                     triggerHotkey(panelManager.GetValue(key, chosenFunction));
                     break;
+                case "adjustvolume":
+                    adjustvolume(panelManager.GetValue(key, chosenFunction));
+                    break;
             }
-            
+
         }
 
         private void LaunchProgram(string programName)
@@ -296,7 +300,17 @@ namespace Streamdeck
             Debug.WriteLine(sks);
         }
 
-        
+        private void adjustvolume(string volumechangestr)
+        {
+            volumechangestr = volumechangestr.Replace(" ", "");
+            double volumechange = Double.Parse(volumechangestr);
+            CoreAudioDevice defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
+            double currentvolume = defaultPlaybackDevice.Volume;
+            defaultPlaybackDevice.Volume = currentvolume + volumechange;
+        }
+
+
+
         private string FindArduinoPort()
         {
             string port = "";
@@ -344,7 +358,7 @@ namespace Streamdeck
 
         private void applyButton_MouseMove(object sender, EventArgs e)
         {
-            if(applyButtonActivated)
+            if (applyButtonActivated)
                 Cursor.Current = Cursors.Hand;
             else
                 Cursor.Current = Cursors.Default;
@@ -663,17 +677,18 @@ namespace Streamdeck
                 picBox.Image = drawBorder(picBox);
                 chosenKey = picBox;
                 selectedKeyImage.Image = originalImages[chosenKey];
-                if(!applyButtonActivated && chosenFunction != "unknown")
+                if (!applyButtonActivated && chosenFunction != "unknown")
                 {
                     applyButton.BackColor = Color.Gray;
                     applyButton.FlatStyle = FlatStyle.Standard;
                     applyButtonActivated = true;
                 }
-                if(panelManager.GetFunction(chosenKey.Tag.ToString()) != "")
+                if (panelManager.GetFunction(chosenKey.Tag.ToString()) != "")
                 {
                     functionOfChosenKey = panelManager.GetFunction(chosenKey.Tag.ToString());
                     ListView1_SelectedIndexChanged(null, null);
-                } else
+                }
+                else
                 {
                     functionOfChosenKey = "";
                 }
@@ -686,19 +701,15 @@ namespace Streamdeck
 
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Ensure the ListView has focus when clicked
             listView1.Focus();
 
-            // Check if any item is selected
             if (listView1.SelectedItems.Count > 0)
             {
-                // First, reset all items' background colors
                 foreach (ListViewItem item in listView1.Items)
                 {
                     item.BackColor = Color.FromArgb(40, 40, 40); // Default color for unselected items
                 }
 
-                // Get the selected item (assuming single select, so the first selected item)
                 ListViewItem selectedItem;
                 if (functionOfChosenKey != "" && sender == null && e == null)
                 {
@@ -710,12 +721,12 @@ namespace Streamdeck
                     {
                         return;
                     }
-                } else
+                }
+                else
                 {
                     selectedItem = listView1.SelectedItems[0];
                 }
 
-                // Change the background color of the selected item
                 selectedItem.BackColor = Color.FromArgb(23, 100, 186);
                 chosenFunction = selectedItem.Text.Replace(" ", "").ToLower();
                 labelNameA.Text = selectedItem.Text;
@@ -726,14 +737,23 @@ namespace Streamdeck
                     applyButton.FlatStyle = FlatStyle.Standard;
                     applyButtonActivated = true;
                 }
-                if(chosenFunction == "triggerhotkey")
+                if (chosenFunction == "triggerhotkey")
                 {
                     textBoxConfig.PlaceholderText = "Press a key combination...";
                     label4.Text = "Key:";
-                } else
+                    label4.Location = new Point(132, 109);
+                }
+                else if (chosenFunction == "adjustvolume")
+                {
+                    textBoxConfig.PlaceholderText = "+ 5";
+                    label4.Text = "Volume:";
+                    label4.Location = new Point(123, 109);
+                }
+                else
                 {
                     textBoxConfig.PlaceholderText = "";
                     label4.Text = "Path:";
+                    label4.Location = new Point(132, 109);
                 }
             }
             else
@@ -820,10 +840,10 @@ namespace Streamdeck
             return temp;
         }
 
-        private void textBox2_MouseClick(object sender, EventArgs e)
+        private void textBoxConfig_MouseClick(object sender, EventArgs e)
         {
 
-            if (chosenFunction != "openwebsite" && chosenFunction != "triggerhotkey")
+            if (chosenFunction != "openwebsite" && chosenFunction != "triggerhotkey" && chosenFunction != "adjustvolume")
             {
                 TextBox textBox = sender as TextBox;
                 OpenFileDialog fdlg = new OpenFileDialog();
@@ -858,7 +878,6 @@ namespace Streamdeck
                         modifiers += "ALT + ";
                     }
 
-                    // Taste hinzufügen, außer Modifier-Tasten selbst (ShiftKey, ControlKey, Menu)
                     if (keyEventArgs.KeyCode != Keys.ShiftKey && keyEventArgs.KeyCode != Keys.ControlKey && keyEventArgs.KeyCode != Keys.Menu)
                     {
                         pressedKeys.Append(modifiers + keyEventArgs.KeyCode.ToString() + " + ");
@@ -885,10 +904,49 @@ namespace Streamdeck
             }
         }
 
-        private void textBox2_MouseMove(object sender, MouseEventArgs e)
+        private void textBoxConfig_MouseMove(object sender, MouseEventArgs e)
         {
             Cursor.Current = Cursors.Default;
         }
+
+        private void textBoxConfig_TextChanged(object sender, EventArgs e)
+        {
+            if (chosenFunction == "adjustvolume")
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Prüfen, ob die Eingabe gültig ist
+                string input = textBox.Text.Trim();
+                if (input == "-") return;
+
+                if (int.TryParse(input, out int value))
+                {
+                    value = Math.Max(-100, Math.Min(100, value));
+                    textBox.Tag = value;
+                }
+                else
+                {
+                    textBox.Tag = null;
+                }
+            }
+        }
+
+        private void textBoxConfig_Leave(object sender, EventArgs e)
+        {
+            if (chosenFunction == "adjustvolume")
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox.Tag != null && textBox.Tag is int value)
+                {
+                    textBox.Text = (value >= 0 ? "+ " : "- ") + Math.Abs(value).ToString();
+                }
+                else
+                {
+                    textBox.Text = "";
+                }
+            }
+        }
+
     }
 
 }
