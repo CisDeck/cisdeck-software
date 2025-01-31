@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Samuele\\source\\repos\\Streamdeck\\Streamdeck.csproj": {}
+    "C:\\Users\\Samuele\\source\\repos\\Cisdeck\\Streamdeck.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Samuele\\source\\repos\\Streamdeck\\Streamdeck.csproj": {
+    "C:\\Users\\Samuele\\source\\repos\\Cisdeck\\Streamdeck.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Samuele\\source\\repos\\Streamdeck\\Streamdeck.csproj",
+        "projectUniqueName": "C:\\Users\\Samuele\\source\\repos\\Cisdeck\\Streamdeck.csproj",
         "projectName": "Streamdeck",
-        "projectPath": "C:\\Users\\Samuele\\source\\repos\\Streamdeck\\Streamdeck.csproj",
+        "projectPath": "C:\\Users\\Samuele\\source\\repos\\Cisdeck\\Streamdeck.csproj",
         "packagesPath": "C:\\Users\\Samuele\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Samuele\\source\\repos\\Streamdeck\\obj\\",
+        "outputPath": "C:\\Users\\Samuele\\source\\repos\\Cisdeck\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

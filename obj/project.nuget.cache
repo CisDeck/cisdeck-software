@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IlrI3F6S7fwEFz5IQDQYmMP8lnF3vQnHbsFab7ljhHYXo+p8Zc0i4Wka3ARWQdWPQns71seSZJ6mOCwgLAlKBQ==",
+  "dgSpecHash": "BQN8Gl0z/7TlGq7Ma47uFnGFhlfoMOmNfFP+B0mTmDrWJy3dLVtOA/5fJiuzJOS3s/ZjjLjg5qT/EBLurOFdCw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Samuele\\source\\repos\\Streamdeck\\Streamdeck.csproj",
+  "projectFilePath": "C:\\Users\\Samuele\\source\\repos\\Cisdeck\\Cisdeck.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Samuele\\.nuget\\packages\\audioswitcher.audioapi\\3.0.0\\audioswitcher.audioapi.3.0.0.nupkg.sha512",
     "C:\\Users\\Samuele\\.nuget\\packages\\audioswitcher.audioapi.coreaudio\\3.0.3\\audioswitcher.audioapi.coreaudio.3.0.3.nupkg.sha512",

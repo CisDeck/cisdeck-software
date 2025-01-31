@@ -45,7 +45,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.CisDeck_White_on_Black;
+            pictureBox1.Image = Cisdeck.Properties.Resources.CisDeck_White_on_Black;
             pictureBox1.Location = new Point(12, 12);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(776, 266);
@@ -89,7 +89,7 @@
             // pictureBox2
             // 
             pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            pictureBox2.Image = Properties.Resources.loading_cicle_white;
+            pictureBox2.Image = Cisdeck.Properties.Resources.loading_cicle_white;
             pictureBox2.Location = new Point(3, 3);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(770, 146);

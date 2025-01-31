@@ -98,7 +98,7 @@
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            pictureBox1.Image = Properties.Resources.numpad_4x4;
+            pictureBox1.Image = Cisdeck.Properties.Resources.numpad_4x4;
             pictureBox1.Location = new Point(0, 3);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(328, 456);
@@ -342,7 +342,7 @@
             // numpad_4
             // 
             numpad_4.Cursor = Cursors.Hand;
-            numpad_4.Image = Properties.Resources._4;
+            numpad_4.Image = Cisdeck.Properties.Resources._4;
             numpad_4.Location = new Point(44, 180);
             numpad_4.Name = "numpad_4";
             numpad_4.Size = new Size(48, 50);
@@ -357,7 +357,7 @@
             // numpad_5
             // 
             numpad_5.Cursor = Cursors.Hand;
-            numpad_5.Image = Properties.Resources._5;
+            numpad_5.Image = Cisdeck.Properties.Resources._5;
             numpad_5.Location = new Point(108, 180);
             numpad_5.Name = "numpad_5";
             numpad_5.Size = new Size(48, 50);
@@ -372,7 +372,7 @@
             // numpad_6
             // 
             numpad_6.Cursor = Cursors.Hand;
-            numpad_6.Image = Properties.Resources._6;
+            numpad_6.Image = Cisdeck.Properties.Resources._6;
             numpad_6.Location = new Point(173, 180);
             numpad_6.Name = "numpad_6";
             numpad_6.Size = new Size(48, 50);
@@ -387,7 +387,7 @@
             // numpad_7
             // 
             numpad_7.Cursor = Cursors.Hand;
-            numpad_7.Image = Properties.Resources._7;
+            numpad_7.Image = Cisdeck.Properties.Resources._7;
             numpad_7.Location = new Point(44, 241);
             numpad_7.Name = "numpad_7";
             numpad_7.Size = new Size(48, 50);
@@ -402,7 +402,7 @@
             // numpad_8
             // 
             numpad_8.Cursor = Cursors.Hand;
-            numpad_8.Image = Properties.Resources._8;
+            numpad_8.Image = Cisdeck.Properties.Resources._8;
             numpad_8.Location = new Point(108, 241);
             numpad_8.Name = "numpad_8";
             numpad_8.Size = new Size(48, 50);
@@ -417,7 +417,7 @@
             // numpad_9
             // 
             numpad_9.Cursor = Cursors.Hand;
-            numpad_9.Image = Properties.Resources._9;
+            numpad_9.Image = Cisdeck.Properties.Resources._9;
             numpad_9.Location = new Point(173, 241);
             numpad_9.Name = "numpad_9";
             numpad_9.Size = new Size(48, 50);
@@ -432,7 +432,7 @@
             // numpad_star
             // 
             numpad_star.Cursor = Cursors.Hand;
-            numpad_star.Image = Properties.Resources.star;
+            numpad_star.Image = Cisdeck.Properties.Resources.star;
             numpad_star.Location = new Point(44, 301);
             numpad_star.Name = "numpad_star";
             numpad_star.Size = new Size(48, 50);
@@ -447,7 +447,7 @@
             // numpad_hashtag
             // 
             numpad_hashtag.Cursor = Cursors.Hand;
-            numpad_hashtag.Image = Properties.Resources._;
+            numpad_hashtag.Image = Cisdeck.Properties.Resources._;
             numpad_hashtag.Location = new Point(173, 301);
             numpad_hashtag.Name = "numpad_hashtag";
             numpad_hashtag.Size = new Size(48, 50);
@@ -462,7 +462,7 @@
             // numpad_A
             // 
             numpad_A.Cursor = Cursors.Hand;
-            numpad_A.Image = Properties.Resources.A;
+            numpad_A.Image = Cisdeck.Properties.Resources.A;
             numpad_A.Location = new Point(236, 120);
             numpad_A.Name = "numpad_A";
             numpad_A.Size = new Size(48, 50);
@@ -477,7 +477,7 @@
             // numpad_B
             // 
             numpad_B.Cursor = Cursors.Hand;
-            numpad_B.Image = Properties.Resources.B;
+            numpad_B.Image = Cisdeck.Properties.Resources.B;
             numpad_B.Location = new Point(236, 180);
             numpad_B.Name = "numpad_B";
             numpad_B.Size = new Size(48, 50);
@@ -492,7 +492,7 @@
             // numpad_C
             // 
             numpad_C.Cursor = Cursors.Hand;
-            numpad_C.Image = Properties.Resources.C;
+            numpad_C.Image = Cisdeck.Properties.Resources.C;
             numpad_C.Location = new Point(236, 241);
             numpad_C.Name = "numpad_C";
             numpad_C.Size = new Size(48, 50);
@@ -507,7 +507,7 @@
             // numpad_3
             // 
             numpad_3.Cursor = Cursors.Hand;
-            numpad_3.Image = Properties.Resources._3;
+            numpad_3.Image = Cisdeck.Properties.Resources._3;
             numpad_3.Location = new Point(173, 120);
             numpad_3.Name = "numpad_3";
             numpad_3.Size = new Size(48, 50);
@@ -522,7 +522,7 @@
             // numpad_2
             // 
             numpad_2.Cursor = Cursors.Hand;
-            numpad_2.Image = Properties.Resources._2;
+            numpad_2.Image = Cisdeck.Properties.Resources._2;
             numpad_2.Location = new Point(108, 120);
             numpad_2.Name = "numpad_2";
             numpad_2.Size = new Size(48, 50);
@@ -537,7 +537,7 @@
             // numpad_0
             // 
             numpad_0.Cursor = Cursors.Hand;
-            numpad_0.Image = Properties.Resources._0;
+            numpad_0.Image = Cisdeck.Properties.Resources._0;
             numpad_0.Location = new Point(108, 301);
             numpad_0.Name = "numpad_0";
             numpad_0.Size = new Size(48, 50);
@@ -552,7 +552,7 @@
             // numpad_D
             // 
             numpad_D.Cursor = Cursors.Hand;
-            numpad_D.Image = Properties.Resources.D;
+            numpad_D.Image = Cisdeck.Properties.Resources.D;
             numpad_D.Location = new Point(236, 301);
             numpad_D.Name = "numpad_D";
             numpad_D.Size = new Size(48, 50);
@@ -567,7 +567,7 @@
             // numpad_1
             // 
             numpad_1.Cursor = Cursors.Hand;
-            numpad_1.Image = Properties.Resources._1;
+            numpad_1.Image = Cisdeck.Properties.Resources._1;
             numpad_1.Location = new Point(44, 120);
             numpad_1.Name = "numpad_1";
             numpad_1.Size = new Size(48, 50);
