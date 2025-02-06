@@ -48,22 +48,38 @@ namespace Streamdeck
             timeLeftToCheck = 30;
             timer1.Start();
             File.Delete("options.txt");
-            if (listView1.Columns.Count == 0)
+            if (functionsList.Columns.Count == 0)
             {
-                listView1.Columns.Add(new ColumnHeader());  // Add an empty column
+                functionsList.Columns.Add(new ColumnHeader());  // Add an empty column
             }
-            listView1.OwnerDraw = true;
-            listView1.Columns[0].Width = 300;
-            foreach (ListViewItem item in listView1.Items)
+            functionsList.OwnerDraw = true;
+            functionsList.Columns[0].Width = 300;
+            foreach (ListViewItem item in functionsList.Items)
             {
                 item.BackColor = Color.FromArgb(40, 40, 40);
             }
-            listView1.Focus();
-            listView1.FullRowSelect = true;
+            functionsList.Focus();
+            functionsList.FullRowSelect = true;
             chosenFunction = "unknown";
             panelManager.PopulatePanel(reusablePanel, "0", chosenFunction);
             applyButton.BackColor = Color.Silver;
             hotkeyLogic = new HotkeyLogic();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            foreach (Control control in GetAllControls(this))
+            {
+                PictureBox picBox = control as PictureBox;
+                if (picBox != null && picBox.Image != null)
+                {
+                    originalImages[picBox] = picBox.Image;
+                    brightenedImages[picBox] = AdjustGamma(picBox.Image, 1.5f);
+                    borderImages[picBox] = drawBorder(picBox);
+                    borderBrightenedImages[picBox] = AdjustGamma(borderImages[picBox], 1.5f);
+                }
+            }
+            clickNumpad(numpad_0);
         }
 
         private void ConnectToArduino()
@@ -241,22 +257,6 @@ namespace Streamdeck
             }
         }
 
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
-        public static void PressKey(Keys key, bool up)
-        {
-            const int KEYEVENTF_EXTENDEDKEY = 0x1;
-            const int KEYEVENTF_KEYUP = 0x2;
-            if (up)
-            {
-                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (UIntPtr)0);
-            }
-            else
-            {
-                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY, (UIntPtr)0);
-            }
-        }
-
         private void triggerHotkey(string hotkey)
         {
             var modifierMap = new Dictionary<string, string>
@@ -309,44 +309,6 @@ namespace Streamdeck
             defaultPlaybackDevice.Volume = currentvolume + volumechange;
         }
 
-
-
-        private string FindArduinoPort()
-        {
-            string port = "";
-            List<string> ports = SerialPort.GetPortNames().ToList();
-            foreach (string p in ports)
-            {
-                port = p;
-            }
-
-
-            return port;
-        }
-
-        public static string FormatURL(string Url, bool IncludeHttp)
-        {
-
-            Url = Url.ToLower();
-
-            switch (IncludeHttp)
-            {
-                case true:
-                    if (!(Url.StartsWith("http://") || Url.StartsWith("https://")))
-                        Url = "http://" + Url;
-                    break;
-                case false:
-                    if (Url.StartsWith("http://"))
-                        Url = Url.Remove(0, "http://".Length);
-                    if (Url.StartsWith("https://"))
-                        Url = Url.Remove(0, "https://".Length);
-                    break;
-            }
-
-            return Url;
-
-        }
-
         private void applyButton_Click(object sender, EventArgs e)
         {
             if (applyButtonActivated)
@@ -379,28 +341,254 @@ namespace Streamdeck
             ConnectToArduino();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void textBoxConfig_MouseClick(object sender, EventArgs e)
         {
-            if (timeLeftToCheck > 0)
+
+            if (chosenFunction != "openwebsite" && chosenFunction != "triggerhotkey" && chosenFunction != "adjustvolume")
             {
-                timeLeftToCheck = timeLeftToCheck - 1;
-            }
-            else
-            {
-                if (connectedLabel.Text == "Unconnected")
+                TextBox textBox = sender as TextBox;
+                OpenFileDialog fdlg = new OpenFileDialog();
+                if (fdlg.ShowDialog() == DialogResult.OK)
                 {
-                    ConnectToArduino();
+                    textBox.Text = fdlg.FileName;
+                }
+            }
+            else if (chosenFunction == "triggerhotkey")
+            {
+                TextBox textBox = sender as TextBox;
+                textBox.Clear();
+
+                StringBuilder pressedKeys = new StringBuilder();
+                bool keyCheckInProgress = true;
+
+                this.KeyPreview = true;
+
+                this.KeyDown += (s, keyEventArgs) =>
+                {
+                    string modifiers = "";
+                    if (keyEventArgs.Shift && !pressedKeys.ToString().Contains("Shift"))
+                    {
+                        modifiers += "SHIFT + ";
+                    }
+                    if (keyEventArgs.Control && !pressedKeys.ToString().Contains("Ctrl"))
+                    {
+                        modifiers += "CTRL + ";
+                    }
+                    if (keyEventArgs.Alt && !pressedKeys.ToString().Contains("Alt"))
+                    {
+                        modifiers += "ALT + ";
+                    }
+
+                    if (keyEventArgs.KeyCode != Keys.ShiftKey && keyEventArgs.KeyCode != Keys.ControlKey && keyEventArgs.KeyCode != Keys.Menu)
+                    {
+                        pressedKeys.Append(modifiers + keyEventArgs.KeyCode.ToString() + " + ");
+                    }
+                };
+
+                this.KeyUp += (s, keyEventArgs) =>
+                {
+                    if (keyCheckInProgress)
+                    {
+                        if (pressedKeys.Length > 0)
+                        {
+                            pressedKeys.Length -= 3;
+                        }
+
+                        textBox.Text = pressedKeys.ToString();
+                        pressedKeys.Clear();
+                        keyCheckInProgress = false;
+                    }
+
+                    this.KeyDown -= null;
+                    this.KeyUp -= null;
+                };
+            }
+        }
+
+        private void textBoxConfig_MouseMove(object sender, MouseEventArgs e)
+        {
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void textBoxConfig_TextChanged(object sender, EventArgs e)
+        {
+            if (chosenFunction == "adjustvolume")
+            {
+                TextBox textBox = sender as TextBox;
+
+                string input = textBox.Text.Trim();
+                if (input == "-") return;
+
+                if (int.TryParse(input, out int value))
+                {
+                    value = Math.Max(-100, Math.Min(100, value));
+                    textBox.Tag = value;
                 }
                 else
                 {
-                    if (!serialPort.IsOpen)
+                    textBox.Tag = null;
+                }
+            }
+        }
+
+        private void textBoxConfig_Leave(object sender, EventArgs e)
+        {
+            if (chosenFunction == "adjustvolume")
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox.Tag != null && textBox.Tag is int value)
+                {
+                    textBox.Text = (value >= 0 ? "+ " : "- ") + Math.Abs(value).ToString();
+                }
+                else
+                {
+                    textBox.Text = "";
+                }
+            }
+        }
+
+        private void functionsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            functionsList.Focus();
+
+            if (functionsList.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem item in functionsList.Items)
+                {
+                    item.BackColor = Color.FromArgb(40, 40, 40); // Default color for unselected items
+                }
+
+                ListViewItem selectedItem;
+                if (functionOfChosenKey != "" && sender == null && e == null)
+                {
+                    selectedItem = functionsList.Items
+                        .Cast<ListViewItem>()
+                        .FirstOrDefault(item => item.Tag?.ToString() == functionOfChosenKey);
+
+                    if (selectedItem == null)
                     {
-                        connectedLabel.Text = "Unconnected";
-                        connectedLabel.ForeColor = System.Drawing.Color.Red;
+                        return;
                     }
                 }
-                timeLeftToCheck = 30;
+                else
+                {
+                    selectedItem = functionsList.SelectedItems[0];
+                }
+
+                selectedItem.BackColor = Color.FromArgb(23, 100, 186);
+                chosenFunction = selectedItem.Text.Replace(" ", "").ToLower();
+                functionLabel.Text = selectedItem.Text;
+                panelManager.PopulatePanel(reusablePanel, chosenKey.Tag.ToString(), chosenFunction);
+                if (!applyButtonActivated && chosenKey != null)
+                {
+                    applyButton.BackColor = Color.Gray;
+                    applyButton.FlatStyle = FlatStyle.Standard;
+                    applyButtonActivated = true;
+                }
+                if (chosenFunction == "triggerhotkey")
+                {
+                    textBoxConfig.PlaceholderText = "Press a key combination...";
+                    label4.Text = "Key:";
+                    label4.Location = new Point(132, 109);
+                }
+                else if (chosenFunction == "adjustvolume")
+                {
+                    textBoxConfig.PlaceholderText = "+ 5";
+                    label4.Text = "Volume:";
+                    label4.Location = new Point(123, 109);
+                }
+                else
+                {
+                    textBoxConfig.PlaceholderText = "";
+                    label4.Text = "Path:";
+                    label4.Location = new Point(132, 109);
+                }
             }
+            else
+            {
+                // Reset all item backgrounds if no item is selected
+                foreach (ListViewItem item in functionsList.Items)
+                {
+                    item.BackColor = Color.FromArgb(40, 40, 40);
+                }
+            }
+        }
+
+        private void functionsList_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (functionsList.ClientRectangle.Contains(e.Location))
+            {
+                Cursor.Current = Cursors.Hand;
+            }
+            else
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void functionsList_MouseClick(object sender, MouseEventArgs e)
+        {
+            ListViewItem item = functionsList.HitTest(e.Location).Item;
+            if (item != null)
+            {
+                item.Selected = true;
+            }
+        }
+
+        private async void hoverNumpad(object sender)
+        {
+            PictureBox picBox = sender as PictureBox;
+            if (picBox != null)
+            {
+                if (chosenKey == picBox)
+                    picBox.Image = borderBrightenedImages[picBox];
+                else
+                    picBox.Image = brightenedImages[picBox];
+            }
+        }
+
+        private async void leaveNumpad(object sender)
+        {
+            PictureBox picBox = sender as PictureBox;
+            if (picBox != null)
+            {
+                if (chosenKey == picBox)
+                    picBox.Image = borderImages[picBox];
+                else
+                    picBox.Image = originalImages[picBox];
+            }
+        }
+
+        private void clickNumpad(object sender)
+        {
+            PictureBox picBox = sender as PictureBox;
+            if (picBox != null)
+            {
+                if (chosenKey != null)
+                    chosenKey.Image = originalImages[chosenKey];
+                picBox.Image = drawBorder(picBox);
+                chosenKey = picBox;
+                selectedKeyImage.Image = originalImages[chosenKey];
+                if (!applyButtonActivated && chosenFunction != "unknown")
+                {
+                    applyButton.BackColor = Color.Gray;
+                    applyButton.FlatStyle = FlatStyle.Standard;
+                    applyButtonActivated = true;
+                }
+                if (panelManager.GetFunction(chosenKey.Tag.ToString()) != "")
+                {
+                    functionOfChosenKey = panelManager.GetFunction(chosenKey.Tag.ToString());
+                    functionsList_SelectedIndexChanged(null, null);
+                }
+                else
+                {
+                    functionOfChosenKey = "";
+                }
+            }
+            string key = picBox.Tag.ToString();
+
+            // Load the appropriate panel for the clicked key
+            panelManager.PopulatePanel(reusablePanel, key, chosenFunction);
         }
 
         private void numpad_1_hover(object sender, EventArgs e)
@@ -643,148 +831,40 @@ namespace Streamdeck
             clickNumpad(sender);
         }
 
-        private async void hoverNumpad(object sender)
+        private string FindArduinoPort()
         {
-            PictureBox picBox = sender as PictureBox;
-            if (picBox != null)
+            string port = "";
+            List<string> ports = SerialPort.GetPortNames().ToList();
+            foreach (string p in ports)
             {
-                if (chosenKey == picBox)
-                    picBox.Image = borderBrightenedImages[picBox];
-                else
-                    picBox.Image = brightenedImages[picBox];
+                port = p;
             }
+
+
+            return port;
         }
 
-        private async void leaveNumpad(object sender)
+        public static string FormatURL(string Url, bool IncludeHttp)
         {
-            PictureBox picBox = sender as PictureBox;
-            if (picBox != null)
+
+            Url = Url.ToLower();
+
+            switch (IncludeHttp)
             {
-                if (chosenKey == picBox)
-                    picBox.Image = borderImages[picBox];
-                else
-                    picBox.Image = originalImages[picBox];
+                case true:
+                    if (!(Url.StartsWith("http://") || Url.StartsWith("https://")))
+                        Url = "http://" + Url;
+                    break;
+                case false:
+                    if (Url.StartsWith("http://"))
+                        Url = Url.Remove(0, "http://".Length);
+                    if (Url.StartsWith("https://"))
+                        Url = Url.Remove(0, "https://".Length);
+                    break;
             }
-        }
 
-        private void clickNumpad(object sender)
-        {
-            PictureBox picBox = sender as PictureBox;
-            if (picBox != null)
-            {
-                if (chosenKey != null)
-                    chosenKey.Image = originalImages[chosenKey];
-                picBox.Image = drawBorder(picBox);
-                chosenKey = picBox;
-                selectedKeyImage.Image = originalImages[chosenKey];
-                if (!applyButtonActivated && chosenFunction != "unknown")
-                {
-                    applyButton.BackColor = Color.Gray;
-                    applyButton.FlatStyle = FlatStyle.Standard;
-                    applyButtonActivated = true;
-                }
-                if (panelManager.GetFunction(chosenKey.Tag.ToString()) != "")
-                {
-                    functionOfChosenKey = panelManager.GetFunction(chosenKey.Tag.ToString());
-                    ListView1_SelectedIndexChanged(null, null);
-                }
-                else
-                {
-                    functionOfChosenKey = "";
-                }
-            }
-            string key = picBox.Tag.ToString();
+            return Url;
 
-            // Load the appropriate panel for the clicked key
-            panelManager.PopulatePanel(reusablePanel, key, chosenFunction);
-        }
-
-        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            listView1.Focus();
-
-            if (listView1.SelectedItems.Count > 0)
-            {
-                foreach (ListViewItem item in listView1.Items)
-                {
-                    item.BackColor = Color.FromArgb(40, 40, 40); // Default color for unselected items
-                }
-
-                ListViewItem selectedItem;
-                if (functionOfChosenKey != "" && sender == null && e == null)
-                {
-                    selectedItem = listView1.Items
-                        .Cast<ListViewItem>()
-                        .FirstOrDefault(item => item.Tag?.ToString() == functionOfChosenKey);
-
-                    if (selectedItem == null)
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    selectedItem = listView1.SelectedItems[0];
-                }
-
-                selectedItem.BackColor = Color.FromArgb(23, 100, 186);
-                chosenFunction = selectedItem.Text.Replace(" ", "").ToLower();
-                labelNameA.Text = selectedItem.Text;
-                panelManager.PopulatePanel(reusablePanel, chosenKey.Tag.ToString(), chosenFunction);
-                if (!applyButtonActivated && chosenKey != null)
-                {
-                    applyButton.BackColor = Color.Gray;
-                    applyButton.FlatStyle = FlatStyle.Standard;
-                    applyButtonActivated = true;
-                }
-                if (chosenFunction == "triggerhotkey")
-                {
-                    textBoxConfig.PlaceholderText = "Press a key combination...";
-                    label4.Text = "Key:";
-                    label4.Location = new Point(132, 109);
-                }
-                else if (chosenFunction == "adjustvolume")
-                {
-                    textBoxConfig.PlaceholderText = "+ 5";
-                    label4.Text = "Volume:";
-                    label4.Location = new Point(123, 109);
-                }
-                else
-                {
-                    textBoxConfig.PlaceholderText = "";
-                    label4.Text = "Path:";
-                    label4.Location = new Point(132, 109);
-                }
-            }
-            else
-            {
-                // Reset all item backgrounds if no item is selected
-                foreach (ListViewItem item in listView1.Items)
-                {
-                    item.BackColor = Color.FromArgb(40, 40, 40);
-                }
-            }
-        }
-
-        private void ListView1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (listView1.ClientRectangle.Contains(e.Location))
-            {
-                Cursor.Current = Cursors.Hand;
-            }
-            else
-            {
-                Cursor.Current = Cursors.Default;
-            }
-        }
-
-        private void ListView1_MouseClick(object sender, MouseEventArgs e)
-        {
-            ListViewItem item = listView1.HitTest(e.Location).Item;
-            if (item != null)
-            {
-                item.Selected = true;
-            }
         }
 
         private Image AdjustGamma(Image image, float gammaFactor)
@@ -800,20 +880,20 @@ namespace Streamdeck
             return temp;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+        public static void PressKey(Keys key, bool up)
         {
-            foreach (Control control in GetAllControls(this))
+            const int KEYEVENTF_EXTENDEDKEY = 0x1;
+            const int KEYEVENTF_KEYUP = 0x2;
+            if (up)
             {
-                PictureBox picBox = control as PictureBox;
-                if (picBox != null && picBox.Image != null)
-                {
-                    originalImages[picBox] = picBox.Image;
-                    brightenedImages[picBox] = AdjustGamma(picBox.Image, 1.5f);
-                    borderImages[picBox] = drawBorder(picBox);
-                    borderBrightenedImages[picBox] = AdjustGamma(borderImages[picBox], 1.5f);
-                }
+                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (UIntPtr)0);
             }
-            clickNumpad(numpad_0);
+            else
+            {
+                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY, (UIntPtr)0);
+            }
         }
 
         private IEnumerable<Control> GetAllControls(Control parent)
@@ -840,110 +920,27 @@ namespace Streamdeck
             return temp;
         }
 
-        private void textBoxConfig_MouseClick(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-
-            if (chosenFunction != "openwebsite" && chosenFunction != "triggerhotkey" && chosenFunction != "adjustvolume")
+            if (timeLeftToCheck > 0)
             {
-                TextBox textBox = sender as TextBox;
-                OpenFileDialog fdlg = new OpenFileDialog();
-                if (fdlg.ShowDialog() == DialogResult.OK)
-                {
-                    textBox.Text = fdlg.FileName;
-                }
+                timeLeftToCheck = timeLeftToCheck - 1;
             }
-            else if (chosenFunction == "triggerhotkey")
+            else
             {
-                TextBox textBox = sender as TextBox;
-                textBox.Clear();
-
-                StringBuilder pressedKeys = new StringBuilder();
-                bool keyCheckInProgress = true;
-
-                this.KeyPreview = true;
-
-                this.KeyDown += (s, keyEventArgs) =>
+                if (connectedLabel.Text == "Unconnected")
                 {
-                    string modifiers = "";
-                    if (keyEventArgs.Shift && !pressedKeys.ToString().Contains("Shift"))
-                    {
-                        modifiers += "SHIFT + ";
-                    }
-                    if (keyEventArgs.Control && !pressedKeys.ToString().Contains("Ctrl"))
-                    {
-                        modifiers += "CTRL + ";
-                    }
-                    if (keyEventArgs.Alt && !pressedKeys.ToString().Contains("Alt"))
-                    {
-                        modifiers += "ALT + ";
-                    }
-
-                    if (keyEventArgs.KeyCode != Keys.ShiftKey && keyEventArgs.KeyCode != Keys.ControlKey && keyEventArgs.KeyCode != Keys.Menu)
-                    {
-                        pressedKeys.Append(modifiers + keyEventArgs.KeyCode.ToString() + " + ");
-                    }
-                };
-
-                this.KeyUp += (s, keyEventArgs) =>
-                {
-                    if (keyCheckInProgress)
-                    {
-                        if (pressedKeys.Length > 0)
-                        {
-                            pressedKeys.Length -= 3;
-                        }
-
-                        textBox.Text = pressedKeys.ToString();
-                        pressedKeys.Clear();
-                        keyCheckInProgress = false;
-                    }
-
-                    this.KeyDown -= null;
-                    this.KeyUp -= null;
-                };
-            }
-        }
-
-        private void textBoxConfig_MouseMove(object sender, MouseEventArgs e)
-        {
-            Cursor.Current = Cursors.Default;
-        }
-
-        private void textBoxConfig_TextChanged(object sender, EventArgs e)
-        {
-            if (chosenFunction == "adjustvolume")
-            {
-                TextBox textBox = sender as TextBox;
-
-                // Prüfen, ob die Eingabe gültig ist
-                string input = textBox.Text.Trim();
-                if (input == "-") return;
-
-                if (int.TryParse(input, out int value))
-                {
-                    value = Math.Max(-100, Math.Min(100, value));
-                    textBox.Tag = value;
+                    ConnectToArduino();
                 }
                 else
                 {
-                    textBox.Tag = null;
+                    if (!serialPort.IsOpen)
+                    {
+                        connectedLabel.Text = "Unconnected";
+                        connectedLabel.ForeColor = System.Drawing.Color.Red;
+                    }
                 }
-            }
-        }
-
-        private void textBoxConfig_Leave(object sender, EventArgs e)
-        {
-            if (chosenFunction == "adjustvolume")
-            {
-                TextBox textBox = sender as TextBox;
-                if (textBox.Tag != null && textBox.Tag is int value)
-                {
-                    textBox.Text = (value >= 0 ? "+ " : "- ") + Math.Abs(value).ToString();
-                }
-                else
-                {
-                    textBox.Text = "";
-                }
+                timeLeftToCheck = 30;
             }
         }
 

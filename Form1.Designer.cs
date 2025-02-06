@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            ListViewGroup listViewGroup1 = new ListViewGroup("System", HorizontalAlignment.Left);
-            ListViewGroup listViewGroup2 = new ListViewGroup("Sound", HorizontalAlignment.Left);
-            ListViewItem listViewItem1 = new ListViewItem(new string[] { "Play Sound" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
-            ListViewItem listViewItem2 = new ListViewItem(new string[] { "Launch" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
-            ListViewItem listViewItem3 = new ListViewItem(new string[] { "Open Website" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
-            ListViewItem listViewItem4 = new ListViewItem(new string[] { "Trigger Hotkey" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F));
-            ListViewItem listViewItem5 = new ListViewItem(new string[] { "Adjust Volume" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F));
+            ListViewGroup listViewGroup3 = new ListViewGroup("System", HorizontalAlignment.Left);
+            ListViewGroup listViewGroup4 = new ListViewGroup("Sound", HorizontalAlignment.Left);
+            ListViewItem listViewItem6 = new ListViewItem(new string[] { "Play Sound" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
+            ListViewItem listViewItem7 = new ListViewItem(new string[] { "Launch" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
+            ListViewItem listViewItem8 = new ListViewItem(new string[] { "Open Website" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0));
+            ListViewItem listViewItem9 = new ListViewItem(new string[] { "Trigger Hotkey" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F));
+            ListViewItem listViewItem10 = new ListViewItem(new string[] { "Adjust Volume" }, -1, Color.White, Color.FromArgb(40, 40, 40), new Font("Segoe UI", 12F));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             pictureBox1 = new PictureBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
@@ -48,12 +48,12 @@
             label4 = new Label();
             textBoxName = new TextBox();
             label3 = new Label();
-            labelNameA = new Label();
+            functionLabel = new Label();
             label2 = new Label();
             contextMenuStrip2 = new ContextMenuStrip(components);
             timer1 = new System.Windows.Forms.Timer(components);
             panel5 = new Panel();
-            listView1 = new ListView();
+            functionsList = new ListView();
             imageList = new ImageList(components);
             numpad_4 = new PictureBox();
             numpad_5 = new PictureBox();
@@ -132,7 +132,7 @@
             reusablePanel.Controls.Add(label4);
             reusablePanel.Controls.Add(textBoxName);
             reusablePanel.Controls.Add(label3);
-            reusablePanel.Controls.Add(labelNameA);
+            reusablePanel.Controls.Add(functionLabel);
             reusablePanel.Location = new Point(3, 3);
             reusablePanel.Name = "reusablePanel";
             reusablePanel.Size = new Size(631, 275);
@@ -225,17 +225,17 @@
             label3.TabIndex = 1;
             label3.Text = "Name:";
             // 
-            // labelNameA
+            // functionLabel
             // 
-            labelNameA.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            labelNameA.AutoSize = true;
-            labelNameA.Font = new Font("Segoe UI Emoji", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelNameA.ForeColor = Color.White;
-            labelNameA.Location = new Point(19, 16);
-            labelNameA.Name = "labelNameA";
-            labelNameA.Size = new Size(116, 26);
-            labelNameA.TabIndex = 0;
-            labelNameA.Text = "Play Sound";
+            functionLabel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            functionLabel.AutoSize = true;
+            functionLabel.Font = new Font("Segoe UI Emoji", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            functionLabel.ForeColor = Color.White;
+            functionLabel.Location = new Point(19, 16);
+            functionLabel.Name = "functionLabel";
+            functionLabel.Size = new Size(116, 26);
+            functionLabel.TabIndex = 0;
+            functionLabel.Text = "Play Sound";
             // 
             // label2
             // 
@@ -259,7 +259,7 @@
             // 
             // panel5
             // 
-            panel5.Controls.Add(listView1);
+            panel5.Controls.Add(functionsList);
             panel5.Controls.Add(numpad_4);
             panel5.Controls.Add(numpad_5);
             panel5.Controls.Add(numpad_6);
@@ -283,50 +283,50 @@
             panel5.Size = new Size(1850, 942);
             panel5.TabIndex = 2;
             // 
-            // listView1
+            // functionsList
             // 
-            listView1.Activation = ItemActivation.OneClick;
-            listView1.Alignment = ListViewAlignment.Left;
-            listView1.BackColor = Color.FromArgb(24, 24, 24);
-            listView1.BorderStyle = BorderStyle.FixedSingle;
-            listView1.FullRowSelect = true;
-            listViewGroup1.Header = "System";
-            listViewGroup1.Name = "listViewGroup1";
-            listViewGroup2.Header = "Sound";
-            listViewGroup2.Name = "listViewGroup2";
-            listView1.Groups.AddRange(new ListViewGroup[] { listViewGroup1, listViewGroup2 });
-            listView1.HeaderStyle = ColumnHeaderStyle.None;
-            listViewItem1.Checked = true;
-            listViewItem1.Group = listViewGroup2;
-            listViewItem1.StateImageIndex = 4;
-            listViewItem1.Tag = "playsound";
-            listViewItem2.Checked = true;
-            listViewItem2.Group = listViewGroup1;
-            listViewItem2.StateImageIndex = 1;
-            listViewItem2.Tag = "launch";
-            listViewItem3.Checked = true;
-            listViewItem3.Group = listViewGroup1;
-            listViewItem3.StateImageIndex = 2;
-            listViewItem3.Tag = "openwebsite";
-            listViewItem4.Checked = true;
-            listViewItem4.StateImageIndex = 3;
-            listViewItem4.Tag = "triggerhotkey";
-            listViewItem5.Checked = true;
-            listViewItem5.StateImageIndex = 4;
-            listViewItem5.Tag = "adjustvolume";
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4, listViewItem5 });
-            listView1.Location = new Point(334, 3);
-            listView1.MultiSelect = false;
-            listView1.Name = "listView1";
-            listView1.Size = new Size(300, 456);
-            listView1.StateImageList = imageList;
-            listView1.TabIndex = 22;
-            listView1.UseCompatibleStateImageBehavior = false;
-            listView1.View = View.List;
-            listView1.DrawItem += DrawListViewItem;
-            listView1.SelectedIndexChanged += ListView1_SelectedIndexChanged;
-            listView1.MouseClick += ListView1_MouseClick;
-            listView1.MouseMove += ListView1_MouseMove;
+            functionsList.Activation = ItemActivation.OneClick;
+            functionsList.Alignment = ListViewAlignment.Left;
+            functionsList.BackColor = Color.FromArgb(24, 24, 24);
+            functionsList.BorderStyle = BorderStyle.FixedSingle;
+            functionsList.FullRowSelect = true;
+            listViewGroup3.Header = "System";
+            listViewGroup3.Name = "listViewGroup1";
+            listViewGroup4.Header = "Sound";
+            listViewGroup4.Name = "listViewGroup2";
+            functionsList.Groups.AddRange(new ListViewGroup[] { listViewGroup3, listViewGroup4 });
+            functionsList.HeaderStyle = ColumnHeaderStyle.None;
+            listViewItem6.Checked = true;
+            listViewItem6.Group = listViewGroup4;
+            listViewItem6.StateImageIndex = 4;
+            listViewItem6.Tag = "playsound";
+            listViewItem7.Checked = true;
+            listViewItem7.Group = listViewGroup3;
+            listViewItem7.StateImageIndex = 1;
+            listViewItem7.Tag = "launch";
+            listViewItem8.Checked = true;
+            listViewItem8.Group = listViewGroup3;
+            listViewItem8.StateImageIndex = 2;
+            listViewItem8.Tag = "openwebsite";
+            listViewItem9.Checked = true;
+            listViewItem9.StateImageIndex = 3;
+            listViewItem9.Tag = "triggerhotkey";
+            listViewItem10.Checked = true;
+            listViewItem10.StateImageIndex = 4;
+            listViewItem10.Tag = "adjustvolume";
+            functionsList.Items.AddRange(new ListViewItem[] { listViewItem6, listViewItem7, listViewItem8, listViewItem9, listViewItem10 });
+            functionsList.Location = new Point(334, 3);
+            functionsList.MultiSelect = false;
+            functionsList.Name = "functionsList";
+            functionsList.Size = new Size(300, 456);
+            functionsList.StateImageList = imageList;
+            functionsList.TabIndex = 22;
+            functionsList.UseCompatibleStateImageBehavior = false;
+            functionsList.View = View.List;
+            functionsList.DrawItem += DrawListViewItem;
+            functionsList.SelectedIndexChanged += functionsList_SelectedIndexChanged;
+            functionsList.MouseClick += functionsList_MouseClick;
+            functionsList.MouseMove += functionsList_MouseMove;
             // 
             // imageList
             // 
@@ -623,7 +623,7 @@
         private void DrawListViewItem(object sender, DrawListViewItemEventArgs e)
         {
             // Define the width for each item to fill the entire ListView width
-            int itemWidth = listView1.ClientSize.Width;
+            int itemWidth = functionsList.ClientSize.Width;
 
             // Get the item and state image index
             ListViewItem item = e.Item;
@@ -637,10 +637,10 @@
             int imageOffset = 8; // 8-pixel offset on both sides
 
             // Draw the state image (if available)
-            if (stateImageIndex >= 0 && listView1.StateImageList != null)
+            if (stateImageIndex >= 0 && functionsList.StateImageList != null)
             {
                 // Get the image from the ImageList
-                Image image = listView1.StateImageList.Images[stateImageIndex];
+                Image image = functionsList.StateImageList.Images[stateImageIndex];
 
                 if (image != null)
                 {
@@ -654,7 +654,7 @@
             }
 
             // Adjust text drawing to account for image width and add right offset
-            int textX = stateImageIndex >= 0 ? e.Bounds.Left + listView1.StateImageList.ImageSize.Width + 2 * imageOffset : e.Bounds.Left + imageOffset;
+            int textX = stateImageIndex >= 0 ? e.Bounds.Left + functionsList.StateImageList.ImageSize.Width + 2 * imageOffset : e.Bounds.Left + imageOffset;
             int textWidth = itemWidth - (textX - e.Bounds.Left) - imageOffset;  // Subtract right offset
 
             // Draw the item text
@@ -687,7 +687,7 @@
         private PictureBox pictureBox1;
         private ContextMenuStrip contextMenuStrip1;
         private Panel configurePanelDefault;
-        private Label labelNameA;
+        private Label functionLabel;
         private ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.Timer timer1;
         private Label connectedLabel;
@@ -709,7 +709,7 @@
         private PictureBox numpad_0;
         private PictureBox numpad_D;
         private PictureBox numpad_1;
-        private ListView listView1;
+        private ListView functionsList;
         private ImageList imageList;
         private ColumnHeader columnHeader1;
         private Label label2;
