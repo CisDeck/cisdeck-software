@@ -91,7 +91,7 @@ namespace Streamdeck
             {
                 if (serialPort != null && serialPort.IsOpen)
                 {
-                    serialPort.Close(); // Close the port if it's already open
+                    serialPort.Close();
                     serialPort.Dispose();
                 }
 
@@ -100,11 +100,10 @@ namespace Streamdeck
                 serialPort.Open();
                 connected = true;
 
-                // Stop the previous thread if it's running
                 if (serialThread != null && serialThread.IsAlive)
                 {
-                    connected = false; // Ensure the previous thread exits
-                    serialThread.Join(); // Wait for the thread to finish
+                    connected = false;
+                    serialThread.Join();
                 }
 
                 // Start a new thread for handling serial communication
@@ -150,12 +149,21 @@ namespace Streamdeck
 
         private void ProcessSerialInput(string input)
         {
-            input = input.Trim(); // Remove unnecessary whitespace
+            input = input.Trim();
             Console.WriteLine(input);
+
+            if(input == "*")
+            {
+                input = "star";
+            } else if(input == "#")
+            {
+                input = "hashtag";
+            }
+
             findCommand(input);
         }
 
-        // Software
+        // Actual Software
 
         private void findCommand(string key)
         {
@@ -266,23 +274,19 @@ namespace Streamdeck
                 { "ALT", "%" }
             };
 
-            // Split the key combination into parts
             var parts = hotkey.Split(new[] { '+' }, StringSplitOptions.RemoveEmptyEntries)
                                         .Select(p => p.Trim().ToUpper()).ToList();
 
-            // Build the SendKeys-compatible string
             StringBuilder sendKeysString = new StringBuilder();
 
             foreach (var part in parts)
             {
                 if (modifierMap.ContainsKey(part))
                 {
-                    // Append the modifier symbol
                     sendKeysString.Append(modifierMap[part]);
                 }
                 else
                 {
-                    // Add the actual key, wrap special keys in braces
                     if (part.Length > 1 || char.IsDigit(part[0]))
                     {
                         sendKeysString.Append($"{{{part}}}");
@@ -295,7 +299,6 @@ namespace Streamdeck
             }
             String sks = sendKeysString.ToString().ToLower();
 
-            // Send the keystroke
             SendKeys.Send(sks);
             Debug.WriteLine(sks);
         }
@@ -313,7 +316,7 @@ namespace Streamdeck
         {
             if (applyButtonActivated)
             {
-                string currentKey = chosenKey.Tag.ToString(); // This would dynamically change based on the clicked key
+                string currentKey = chosenKey.Tag.ToString();
                 panelManager.SaveOptions(reusablePanel, currentKey, chosenFunction);
             }
         }
@@ -329,7 +332,7 @@ namespace Streamdeck
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            connected = false; // Stop serial communication loop
+            connected = false;
             if (serialPort != null && serialPort.IsOpen)
             {
                 serialPort.Close();
@@ -591,6 +594,119 @@ namespace Streamdeck
             panelManager.PopulatePanel(reusablePanel, key, chosenFunction);
         }
 
+        private string FindArduinoPort()
+        {
+            string port = "";
+            List<string> ports = SerialPort.GetPortNames().ToList();
+            foreach (string p in ports)
+            {
+                port = p;
+            }
+
+
+            return port;
+        }
+
+        public static string FormatURL(string Url, bool IncludeHttp)
+        {
+
+            Url = Url.ToLower();
+
+            switch (IncludeHttp)
+            {
+                case true:
+                    if (!(Url.StartsWith("http://") || Url.StartsWith("https://")))
+                        Url = "http://" + Url;
+                    break;
+                case false:
+                    if (Url.StartsWith("http://"))
+                        Url = Url.Remove(0, "http://".Length);
+                    if (Url.StartsWith("https://"))
+                        Url = Url.Remove(0, "https://".Length);
+                    break;
+            }
+
+            return Url;
+
+        }
+
+        private Image AdjustGamma(Image image, float gammaFactor)
+        {
+            Bitmap temp = new Bitmap(image.Width, image.Height);
+            using (Graphics g = Graphics.FromImage(temp))
+            {
+                ImageAttributes attributes = new ImageAttributes();
+                attributes.SetGamma(gammaFactor);
+
+                g.DrawImage(image, new Rectangle(0, 0, temp.Width, temp.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
+            }
+            return temp;
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+        public static void PressKey(Keys key, bool up)
+        {
+            const int KEYEVENTF_EXTENDEDKEY = 0x1;
+            const int KEYEVENTF_KEYUP = 0x2;
+            if (up)
+            {
+                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (UIntPtr)0);
+            }
+            else
+            {
+                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY, (UIntPtr)0);
+            }
+        }
+
+        private IEnumerable<Control> GetAllControls(Control parent)
+        {
+            foreach (Control control in parent.Controls)
+            {
+                yield return control;
+
+                foreach (Control childControl in GetAllControls(control))
+                {
+                    yield return childControl;
+                }
+            }
+        }
+
+        private Image drawBorder(PictureBox picBox)
+        {
+            Bitmap temp = new Bitmap(picBox.Image.Width, picBox.Image.Height);
+            using (Graphics g = Graphics.FromImage(temp))
+            {
+                g.DrawImage(picBox.Image, 0, 0);
+                g.DrawRectangle(new Pen(Color.Blue, 4), 0, 0, picBox.Image.Width, picBox.Image.Height);
+            }
+            return temp;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (timeLeftToCheck > 0)
+            {
+                timeLeftToCheck = timeLeftToCheck - 1;
+            }
+            else
+            {
+                if (connectedLabel.Text == "Unconnected")
+                {
+                    ConnectToArduino();
+                }
+                else
+                {
+                    if (!serialPort.IsOpen)
+                    {
+                        connectedLabel.Text = "Unconnected";
+                        connectedLabel.ForeColor = System.Drawing.Color.Red;
+                    }
+                }
+                timeLeftToCheck = 30;
+            }
+        }
+
         private void numpad_1_hover(object sender, EventArgs e)
         {
             hoverNumpad(sender);
@@ -829,119 +945,6 @@ namespace Streamdeck
         private void numpad_D_Click(object sender, EventArgs e)
         {
             clickNumpad(sender);
-        }
-
-        private string FindArduinoPort()
-        {
-            string port = "";
-            List<string> ports = SerialPort.GetPortNames().ToList();
-            foreach (string p in ports)
-            {
-                port = p;
-            }
-
-
-            return port;
-        }
-
-        public static string FormatURL(string Url, bool IncludeHttp)
-        {
-
-            Url = Url.ToLower();
-
-            switch (IncludeHttp)
-            {
-                case true:
-                    if (!(Url.StartsWith("http://") || Url.StartsWith("https://")))
-                        Url = "http://" + Url;
-                    break;
-                case false:
-                    if (Url.StartsWith("http://"))
-                        Url = Url.Remove(0, "http://".Length);
-                    if (Url.StartsWith("https://"))
-                        Url = Url.Remove(0, "https://".Length);
-                    break;
-            }
-
-            return Url;
-
-        }
-
-        private Image AdjustGamma(Image image, float gammaFactor)
-        {
-            Bitmap temp = new Bitmap(image.Width, image.Height);
-            using (Graphics g = Graphics.FromImage(temp))
-            {
-                ImageAttributes attributes = new ImageAttributes();
-                attributes.SetGamma(gammaFactor);
-
-                g.DrawImage(image, new Rectangle(0, 0, temp.Width, temp.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
-            }
-            return temp;
-        }
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
-        public static void PressKey(Keys key, bool up)
-        {
-            const int KEYEVENTF_EXTENDEDKEY = 0x1;
-            const int KEYEVENTF_KEYUP = 0x2;
-            if (up)
-            {
-                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (UIntPtr)0);
-            }
-            else
-            {
-                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY, (UIntPtr)0);
-            }
-        }
-
-        private IEnumerable<Control> GetAllControls(Control parent)
-        {
-            foreach (Control control in parent.Controls)
-            {
-                yield return control;
-
-                foreach (Control childControl in GetAllControls(control))
-                {
-                    yield return childControl;
-                }
-            }
-        }
-
-        private Image drawBorder(PictureBox picBox)
-        {
-            Bitmap temp = new Bitmap(picBox.Image.Width, picBox.Image.Height);
-            using (Graphics g = Graphics.FromImage(temp))
-            {
-                g.DrawImage(picBox.Image, 0, 0);
-                g.DrawRectangle(new Pen(Color.Blue, 4), 0, 0, picBox.Image.Width, picBox.Image.Height);
-            }
-            return temp;
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (timeLeftToCheck > 0)
-            {
-                timeLeftToCheck = timeLeftToCheck - 1;
-            }
-            else
-            {
-                if (connectedLabel.Text == "Unconnected")
-                {
-                    ConnectToArduino();
-                }
-                else
-                {
-                    if (!serialPort.IsOpen)
-                    {
-                        connectedLabel.Text = "Unconnected";
-                        connectedLabel.ForeColor = System.Drawing.Color.Red;
-                    }
-                }
-                timeLeftToCheck = 30;
-            }
         }
 
     }

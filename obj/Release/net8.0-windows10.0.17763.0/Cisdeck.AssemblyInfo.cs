@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cisdeck")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eddebba6bd3466803e55cab9e21b390dce738d64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a653c53f263f93b2bce900da687d413e48b11e8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cisdeck")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cisdeck")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
